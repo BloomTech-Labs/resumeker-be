@@ -1,6 +1,6 @@
 const graphql = require('graphql');
-const lodash = require('lodash');
-const User = require('../models/users');
+// const lodash = require('lodash');
+// const User = require('../models/users');
 
 
 const { 
