@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -15,8 +17,12 @@ const sequelize = new Sequelize(
                         process.env.DB_USERNAME, 
                         process.env.DB_PASSWORD, 
                         {
-                            host: process.env.END_POINT,
-                            dialect: 'postgres'
+                            host: process.env.DB_HOST,
+                            dialect: 'postgres',
+                            dialectOptions: {
+                                ssl: true 
+                              },
+                            
                         });
 
 
