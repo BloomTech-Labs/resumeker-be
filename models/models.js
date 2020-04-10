@@ -1,14 +1,3 @@
-require('dotenv').config();
-
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-
-const graphqlHTTP = require('express-graphql');
-const schema = require('../schema/schema');
-
-
-
 const Sequelize = require('sequelize');
 
 
@@ -25,6 +14,12 @@ const sequelize = new Sequelize(
                             
                         });
 
+const models = {
+    User: sequelize.import('./users.js'),
+};
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
 
 sequelize
 .authenticate()
@@ -35,15 +30,4 @@ console.log('Connection has been established successfully.');
 console.error('Unable to connect to the database:', err);
 });
 
-const server = express();
-
-server.use(helmet());
-server.use(cors());
-server.use(express.json());
-
-server.use('/graphql', graphqlHTTP({
-    schema,
-    graphiql: true
-}));
-
-module.exports = server;
+module.exports = models;

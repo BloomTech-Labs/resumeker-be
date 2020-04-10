@@ -1,14 +1,35 @@
 
 module.exports = function(sequelize, DataTypes){
  
-    var User = sequelize.define("User", {
-        email: DataTypes.STRING,
-        userId: DataTypes.STRING,
-        userImageURL: DataTypes.STRING,
-        userName: DataTypes.STRING,
-        firstName: DataTypes.STRING,
-        lastName: DataTypes.STRING
-    });
+    const User = sequelize.define("users", {
+        id: {
+            type:DataTypes.INTEGER,
+            primaryKey: true,
+    },
+        userName: {
+            type:DataTypes.STRING,
+            unique: true,
+    },
+        email: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+
+        userId: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+        userImageURL: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+        firstName: {
+            type: DataTypes.STRING,
+    },
+        lastName: {
+            type: DataTypes.STRING
+    },
+});
 
     return User;
 }
