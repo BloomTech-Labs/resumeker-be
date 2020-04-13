@@ -1,12 +1,36 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-    firstName:String,
-    lastName:String,
-    cellphone:String,
-    email:String,
-    password:String
+module.exports = function(sequelize, DataTypes){
+ 
+    const User = sequelize.define("users", {
+        id: {
+            type:DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+    },
+        userName: {
+            type:DataTypes.STRING,
+            unique: true,
+    },
+        email: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+
+        userId: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+        userImageURL: {
+            type: DataTypes.STRING,
+            unique: true,
+    },
+        firstName: {
+            type: DataTypes.STRING,
+    },
+        lastName: {
+            type: DataTypes.STRING
+    },
 });
 
-module.exports = mongoose.model('User',userSchema);
+    return User;
+}
