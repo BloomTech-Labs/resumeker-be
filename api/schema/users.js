@@ -6,14 +6,14 @@ module.exports = gql`
         id: ID!,
         userName: String!,
         email: String,
-        userId: Int!,
+        userId: String,
         userImageURL: String!,
         firstName: String, 
         lastName: String, 
     },
     type Query{
-        getUser(id: Int!): User
-        allUsers:[User!]!
+        getUser(userId: String): User,
+        allUsers:[User],
         hello(name: String!): Hello!
     },
     type Hello{

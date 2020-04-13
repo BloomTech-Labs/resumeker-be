@@ -6,15 +6,19 @@ module.exports =  {
            return {message:`Hi ${name}`}
         },
     getUser: (parent, args, {models}) => {
-                models.User.findOne({where: args.id })
+                models.User.findAll({
+                                    where: {
+                                        userId:args.userId 
+                                        }
+                                    })
         },
     allUsers: (parent, args, {models}) => {
-                models.User.find({})
+            return models.User.findAll()
         },
     },
     Mutation: {
         createUser: (parent, args, { models }) => {
-            models.User.create(args)
+            return models.User.create(args)
         }
     }
 };   
