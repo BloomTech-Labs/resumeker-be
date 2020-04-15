@@ -11,7 +11,21 @@ const apollo = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  playground: true
+  playground: true,
+  context: ({ req }) => {
+
+    // Get the user token from the headers.
+     const token = req.headers.authorization || '';
+
+     // try to retrieve a user with the token
+     const user = getUser(token);
+
+    // Restriction
+     if (!user) throw new AuthenticationError('You must be logged in!');
+  
+     // add the user to the context
+     return { user };
+  }
 });
 
 const app = express();
