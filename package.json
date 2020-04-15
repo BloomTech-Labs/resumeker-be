@@ -4,8 +4,11 @@
   "description": "🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
-    "start": "node index.js",
+    "start": "node src/index.js",
+    "server": "nodemon src/index.js",
+    "db-remake": "psql -U postgres remakeDatabase.sql",
+    "knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
+    "total-reset": "yarn db-remake && yarn knex-refresh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,14 +22,20 @@
   },
   "homepage": "https://github.com/Lambda-School-Labs/resumeker-be#readme",
   "dependencies": {
+    "apollo-server": "^2.12.0",
+    "apollo-server-express": "^2.12.0",
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-graphql": "^0.9.0",
+    "express-jwt": "^5.3.3",
     "graphql": "^14.6.0",
     "helmet": "^3.21.3",
     "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.7.0",
+    "knex": "^0.20.14",
+    "merge-graphql-schemas": "^1.7.7",
+    "path": "^0.12.7",
     "pg": "^7.18.2",
     "sequelize": "^5.21.5"
   },

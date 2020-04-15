@@ -1,9 +1,24 @@
-const server = require('./api/server.js');
+const express = require('express');
+const { ApolloServer, gql } = require('apollo-server-express');
+
+const db = require('./database/config/dbConfig');
+
+const typeDefs = require('./api/schema/typeDefs');
+
+const resolvers = require('./resolvers/resolvers');
+
+const PORT = process.env.PORT;
 
 
+const apollo = new ApolloServer({ 
+  typeDefs,
+  resolvers,
+});
 
-  const PORT = process.env.PORT || 5000;
+const app = express();
 
-  server.listen(PORT, () => {
-    console.log(`\n=== Resumeker Server listening on port ${PORT} ===\n`);
-  });
+apollo.applyMiddleware({ app });
+
+app.listen(PORT, () => 
+  console.log(`🚀 Server ready at localhost:${PORT}${apollo.graphqlPath}`)
+  );
