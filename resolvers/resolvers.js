@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express')
+const db = require('./database/config/dbConfig');
 
 module.exports =  {
     Query: {
@@ -17,4 +17,4 @@ module.exports =  {
             models.User.create(args)
         }
     }
-};   
+};
