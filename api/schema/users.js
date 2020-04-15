@@ -4,7 +4,6 @@ module.exports = gql`
 
     type User {
         id: ID!,
-        userName: String!,
         email: String,
         userId: String,
         userImageURL: String!,
@@ -14,10 +13,6 @@ module.exports = gql`
     type Query{
         getUser(userId: String): User,
         allUsers:[User],
-        hello(name: String!): Hello!
-    },
-    type Hello{
-        message: String!
     },
     type Mutation{
         createUser(userName: String!, 

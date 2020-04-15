@@ -2,7 +2,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable("users", (table) => {
       table.increments("id").notNullable()
-      table.text("username").notNullable().unique();
       table.text("email").notNullable().unique();
       table.text("userImageURL").notNullable().unique();
       table.text("first_name").notNullable();
