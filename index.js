@@ -19,6 +19,6 @@ const app = express();
 
 apollo.applyMiddleware({ app });
 
-app.listen(PORT, () => 
+app.listen(PORT || 8000, () => 
   console.log(`🚀 Server ready at localhost:${PORT}${apollo.graphqlPath}`)
   );
