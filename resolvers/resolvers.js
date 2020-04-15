@@ -2,7 +2,7 @@ const db = require('../database/config/dbConfig');
 
 module.exports =  {
     Query: {
-    users(parent, args, ctx) {
+    users(_, args, ctx) {
         return db("users");
         },
     user(_, { id }) {
@@ -10,8 +10,8 @@ module.exports =  {
         },
     },
     Mutation: {
-        createUser: (parent, args, { models }) => {
-            models.User.create(args)
+        createUser: (_, args) => {
+        return db("users").insert(args)
         }
     }
 };
