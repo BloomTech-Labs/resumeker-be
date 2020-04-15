@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+const pg = require("pg");
+
+pg.defaults.ssl = true;
+
 module.exports = {
   development: {
     client: "pg",
@@ -9,8 +13,7 @@ module.exports = {
     },
     seeds: {
       directory: "./src/data/seeds",
-    },
-    ssl:true
+    },    
   },
-  
+
 };

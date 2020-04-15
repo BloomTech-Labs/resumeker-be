@@ -6,8 +6,6 @@ const { ApolloServer } = require('apollo-server-express');
 
 const authenticate = require('./middleware/authMiddleware.js');
 
-const models = require('./models/models');
-
 const typeDefs = require('./src/schema/schema');
 
 const resolvers = require('./src/resolvers/resolvers');
@@ -16,9 +14,7 @@ const resolvers = require('./src/resolvers/resolvers');
 const apollo = new ApolloServer({ 
   typeDefs,
   resolvers,
-  context:{
-    models
-  }
+  
 });
 
 
@@ -35,11 +31,11 @@ apollo.applyMiddleware({
 
 //{force:true} taken out of sync()
 
-models.sequelize.sync().then(() => {
+
 app.listen(process.env.PORT, () => 
   console.log(`🚀 Server ready at 4000${apollo.graphqlPath}`)
   );
- })
+ 
 
 
 // models.sequelize.sync( {force:true}).then(() => {
