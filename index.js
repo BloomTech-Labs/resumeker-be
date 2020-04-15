@@ -32,6 +32,8 @@ const app = express();
 
 apollo.applyMiddleware({ app });
 
-app.listen(PORT || 8000, () => 
-  console.log(`🚀 Server ready at ${PORT}${apollo.graphqlPath}`)
-  );
+if(!module.parent) {
+  app.listen(PORT || 8080, () => {
+    console.log(`\n 🚀 Server listening on localhost:${PORT}${apollo.graphqlPath} 🚀 \n`)
+  })
+}
