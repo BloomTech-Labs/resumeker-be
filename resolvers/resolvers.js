@@ -2,9 +2,6 @@ const db = require('../database/config/dbConfig');
 
 module.exports =  {
     Query: {
-    hello: (_, {name}) => {
-           return {message:`Hi ${name}`}
-        },
     users(parent, args, ctx) {
         return db("users");
         },
