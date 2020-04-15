@@ -15,7 +15,6 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.STRING,
             unique: true,
     },
-
         userId: {
             type: DataTypes.STRING,
             unique: true,
