@@ -7,7 +7,6 @@ const resolvers = require('./resolvers/resolvers');
 
 const PORT = process.env.PORT;
 
-
 const apollo = new ApolloServer({ 
   typeDefs,
   resolvers,
