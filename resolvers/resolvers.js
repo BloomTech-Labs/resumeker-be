@@ -1,4 +1,4 @@
-const db = require("../data/knexConf");
+const db = require("../database/config/dbConfig");
 
 module.exports =  {
     Query: {
@@ -9,6 +9,11 @@ module.exports =  {
     allUsers: (parent, args, _) => {
             
             return db("users");
+        },
+    getToken: (parent,args, context) => {
+
+            return context
+            
         },
     },
     Mutation: {

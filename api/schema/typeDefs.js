@@ -6,12 +6,16 @@ module.exports = gql`
         id: ID!,
         email: String,
         userImageURL: String!,
-        firstName: String, 
-        lastName: String, 
+        first_name: String, 
+        last_name: String, 
+    },
+    type Token{
+        token: String
     },
     type Query{
         getUser(id: ID): User
         allUsers:[User]!
+        getToken(token: String): Token
     },
     input CreateUserInput{
         id: ID!,
