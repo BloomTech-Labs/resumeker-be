@@ -6,7 +6,7 @@ const typeDefs = require('./api/schema/typeDefs');
 
 const resolvers = require('./resolvers/resolvers');
 
-const PORT = process.env.PORT || '4000';
+
 
 const app = express();
 
@@ -29,9 +29,12 @@ const apollo = new ApolloServer({
 });
 
 
-
 apollo.applyMiddleware({ app });
 
-app.listen(PORT, () => 
-  console.log(`🚀 Server ready at localhost:${PORT}${apollo.graphqlPath}`)
-  );
+const PORT = process.env.PORT;
+
+if(!module.parent) {
+  app.listen(PORT, () => {
+    console.log(`\n 🚀 Server listening on localhost:${PORT}${apollo.graphqlPath} 🚀 \n`)
+  })
+}

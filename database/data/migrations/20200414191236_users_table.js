@@ -4,8 +4,8 @@ exports.up = function(knex) {
       table.increments("id").notNullable()
       table.text("email").notNullable().unique();
       table.text("userImageURL").notNullable().unique();
-      table.text("first_name").notNullable();
-      table.text("last_name").notNullable();
+      table.text("firstName").notNullable();
+      table.text("lastName").notNullable();
   })
 };
 
