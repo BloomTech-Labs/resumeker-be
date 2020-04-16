@@ -1,17 +1,24 @@
-const db = require('../database/config/dbConfig');
+const db = require("../database/config/dbConfig");
 
 module.exports =  {
     Query: {
-    users(parent, args, ctx) {
-        return db("users");
+    getUser: (parent, { id }, _) => {
+                
+            return db("users").where( { id }).first();
         },
-    user(_, { id }) {
-        return db("users").where({ id }).first();
+    allUsers: (parent, args, _) => {
+            
+            return db("users");
+        },
+    getToken: (parent,args, context) => {
+
+            return context
+            
         },
     },
     Mutation: {
-        createUser: (parent, args, { models }) => {
-            models.User.create(args)
+        createUser: (parent, {data}, _) => {
+            return db("users").insert({data})
         }
     }
 };
