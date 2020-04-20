@@ -34,7 +34,7 @@ module.exports = gql`
     type Mutation{
         createUser(data: CreateUserInput!):User,
         getUpdatedUser(
-                id: ID!,
+                id: ID,
                 email: String,
                 firstName: String, 
                 lastName: String, 
