@@ -21,7 +21,7 @@ module.exports = gql`
         getUser: userInfo
         allUsers:[User]!
         getToken(token: String): Token
-        getUpdatedUser(id: ID): User
+        getUpdatedUser: userInfo
         getString(bla: String): hello
     },
     input CreateUserInput{

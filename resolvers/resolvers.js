@@ -11,13 +11,13 @@ module.exports =  {
 
             return {userInfo: JSON.stringify(user)};
         },
-    getUpdatedUser: async (parent, { id }, context) => {
+    getUpdatedUser: async (parent, _, context) => {
             
             const updated_user = await updateUser(context.user_info);
 
             console.log(updated_user, "updated user");
 
-            return db("users").where( { id }).first();
+            return {userInfo: JSON.stringify(updated_user)};
         },    
     allUsers: (parent, args, _) => {
             
