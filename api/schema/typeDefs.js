@@ -5,17 +5,22 @@ module.exports = gql`
     type User {
         id: ID!,
         email: String,
-        userImageURL: String!,
-        first_name: String, 
-        last_name: String, 
+        firstName: String, 
+        lastName: String, 
     },
     type Token{
         token: String
     },
+    type hello{
+        message: String
+    },
     type Query{
         getUser(id: ID): User
+        getUser(token:String):
         allUsers:[User]!
         getToken(token: String): Token
+        getUpdatedUser(id: ID): User
+        getString(bla: String): hello
     },
     input CreateUserInput{
         id: ID!,
@@ -26,5 +31,12 @@ module.exports = gql`
     },
     type Mutation{
         createUser(data: CreateUserInput!):User,
-    }
+        getUpdatedUser(
+                id: ID!,
+                email: String,
+                firstName: String, 
+                lastName: String, 
+            ): User
+    },
+
 `;
