@@ -11,14 +11,14 @@ module.exports =  {
 
             return {userInfo: JSON.stringify(user)};
         },
-    getUpdatedUser: async (parent, _, context) => {
+    // getUpdatedUser: async (parent, _, context) => {
             
-            const updated_user = await updateUser(context.user_info);
+    //         const updated_user = await updateUser(context.user_info);
 
-            console.log(updated_user, "updated user");
+    //         console.log(updated_user, "updated user");
 
-            return {userInfo: JSON.stringify(updated_user)};
-        },    
+    //         return {userInfo: JSON.stringify(updated_user)};
+    //     },    
     allUsers: (parent, args, _) => {
             
             return db("users");
@@ -43,7 +43,7 @@ module.exports =  {
 
             console.log(updatedUser, 'Updated User Holy Grail =====')
 
-            return updatedUser;
+            return {userInfo: JSON.stringify(updatedUser)};
         }
     }
 };
