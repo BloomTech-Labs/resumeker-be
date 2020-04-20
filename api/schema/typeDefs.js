@@ -38,7 +38,7 @@ module.exports = gql`
                 email: String,
                 firstName: String, 
                 lastName: String, 
-            ): User
+            ): userInfo
     },
 
 `;
