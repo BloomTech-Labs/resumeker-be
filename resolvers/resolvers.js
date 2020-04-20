@@ -3,13 +3,13 @@ const { getUser, updateUser} = require("../middleware/m2mRouter");
 
 module.exports =  {
     Query: {
-    getUser: async (parent, { id }, context) => {
+    getUser: async (parent, _, context) => {
                 
             const user = await getUser(context.token);
 
             console.log(user, "getUser User");
 
-            return db("users").where( { id }).first();
+            return {userInfo: JSON.stringify(user)};
         },
     getUpdatedUser: async (parent, { id }, context) => {
             

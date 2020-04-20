@@ -14,9 +14,11 @@ module.exports = gql`
     type hello{
         message: String
     },
+    type userInfo{
+        userInfo: String
+    },
     type Query{
-        getUser(id: ID): User
-        getUser(token:String):
+        getUser: userInfo
         allUsers:[User]!
         getToken(token: String): Token
         getUpdatedUser(id: ID): User
