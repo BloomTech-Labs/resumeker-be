@@ -17,6 +17,8 @@ const app = express();
 const apollo = new ApolloServer({ 
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   context: ({ req }) => {
     // Get the user token from the headers.
     const token = req.headers.authorization || '';
