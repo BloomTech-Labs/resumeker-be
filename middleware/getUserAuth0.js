@@ -1,6 +1,5 @@
 const request = require("request");
 
-
 const sub = res.locals.sub;
 const token = await getToken();
 
