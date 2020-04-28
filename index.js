@@ -1,49 +1,35 @@
-require('dotenv').config()
-
-const express = require('express');
-
-const { ApolloServer } = require('apollo-server-express');
-
-const authenticate = require('./middleware/authMiddleware.js');
-
-const models = require('./models/models');
-
-const typeDefs = require('./src/schema/schema');
-
-const resolvers = require('./src/resolvers/resolvers');
-
-
-const apollo = new ApolloServer({ 
-  typeDefs,
-  resolvers,
-  context:{
-    models
-  }
-});
-
+const express = require("express");
+const { ApolloServer, gql } = require("apollo-server-express");
+const auth = require("./middleware/auth");
+const typeDefs = require("./api/schema/typeDefs");
+const resolvers = require("./resolvers/resolvers");
+const { getToken } = require("./config/auth0Config");
 
 const app = express();
 
-//Drop Middleware here
-app.use('/auth', authenticate());
+// app.use(auth);
 
-apollo.applyMiddleware({
-  app
+const apollo = new ApolloServer({
+	typeDefs,
+	resolvers,
+	introspection: true,
+	playground: true,
+	context: ({ req }) => {
+		// Get the user token from the headers.
+		const token = req.headers.authorization || "";
 
+		return { token };
+	},
 });
 
+apollo.applyMiddleware({ app });
 
-//{force:true} taken out of sync()
+const PORT = process.env.PORT;
 
-models.sequelize.sync().then(() => {
-app.listen(process.env.PORT, () => 
-  console.log(`🚀 Server ready at 4000${apollo.graphqlPath}`)
-  );
- })
-
-
-// models.sequelize.sync( {force:true}).then(() => {
-//   server.listen().then(({ url }) => {
-//     console.log(`🚀 Server ready at ${url}`);
-//   });
-// });
+if (!module.parent) {
+	app.listen(PORT, async () => {
+		console.log(
+			`\n 🚀 Server listening on localhost:${PORT}${apollo.graphqlPath} 🚀 \n`
+		);
+	});
+}
