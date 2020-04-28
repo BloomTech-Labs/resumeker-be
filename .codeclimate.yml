@@ -1,11 +1,7 @@
 version: "2"
 checks:
-  # Disable checks for similar code.
-  # Because this creates too many false positives.
   similar-code:
     enabled: false
-  # Increase the number of lines allowed for a method.
-  # Because this is more reasonable for JavaScript.
   method-lines:
     config:
       threshold: 50
@@ -18,3 +14,4 @@ exclude_patterns:
   - "**/*.spec.tsx"
   - "**/vendor/"
   - "**/node_modules/"
+  - "**/coverage/"
