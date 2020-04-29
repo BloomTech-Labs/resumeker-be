@@ -5,7 +5,7 @@ module.exports = gql`
     type Query {
         getUser(id: ID!): User
         getAllUsers: [User!]!
-        getQuestions(role: Role): [DisplayQuestion!]!
+        getQuestions(role: RoleInput): [DisplayQuestion!]!
     }
     type Mutation {
         updateUser(
@@ -74,6 +74,12 @@ module.exports = gql`
         name: String
         description: String
     }
+
+    input RoleInput {
+        name: String
+        description: String
+    }
+
     type DisplayQuestion {
         id: ID!
         text: String

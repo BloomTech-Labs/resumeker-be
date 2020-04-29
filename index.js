@@ -5,7 +5,10 @@ const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./api/src/schema/typeDefs");
 const resolvers = require("./api/src/resolvers/resolvers");
 
-const PORT = process.env.PORT;
+const port = 8000;
+const PORT = process.env.PORT || port;
+const HOST = process.env.BASE_URL || "localhost";
+const baseURL = `http://${HOST}:${PORT}`;
 
 // Are these necessary?
 // const auth = require("./api/src/middleware/auth");
@@ -30,9 +33,7 @@ const apollo = new ApolloServer({
 apollo.applyMiddleware({ app });
 
 if (!module.parent) {
-    app.listen(PORT, async () => {
-        console.log(
-            `\n 🚀 Server listening on localhost:${PORT}${apollo.graphqlPath} 🚀 \n`
-        );
+    app.listen(PORT, () => {
+        console.log(`\n 🚀 Server listening on ${baseURL} 🚀 \n`);
     });
 }
