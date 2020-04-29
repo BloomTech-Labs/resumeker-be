@@ -1,7 +1,7 @@
-const request = require("request");
+// const request = require("request");
 
-const sub = res.locals.sub;
-const token = await getToken();
+// const sub = res.locals.sub;
+// const token = await getToken();
 
 // var options = {
 //     method: 'GET',

@@ -1,12 +1,12 @@
-const db = require("../database/config/dbConfig");
-const { getUser, updateUser } = require("../middleware/m2mRouter");
+// const db = require("../database/config/dbConfig");
+const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
     Query: {
         getUser: async (parent, _, context) => {
             const user = await getUser(context.token);
 
-            console.log(user, "getUser User");
+            // console.log(user, "getUser User");
 
             return { userInfo: JSON.stringify(user) };
         },
@@ -18,17 +18,17 @@ module.exports = {
 
         //         return {userInfo: JSON.stringify(updated_user)};
         //     },
-        getAllUsers: (parent, args, _) => {
-            return db("users");
-        },
     },
     // Mutation: {
+    //     createUser: (parent, { data }) => {
+    //         return db("users").insert({ data });
+    //     },
     //     getUpdatedUser: async (_, args, context) => {
-    //         console.log(args, "getUpdatedUser Body");
+    //         // console.log(args, "getUpdatedUser Body");
 
     //         const updatedUser = await updateUser(context.token, args);
 
-    //         console.log(updatedUser, "Updated User Holy Grail =====");
+    //         // console.log(updatedUser, "Updated User Holy Grail =====");
 
     //         return { userInfo: JSON.stringify(updatedUser) };
     //     },
