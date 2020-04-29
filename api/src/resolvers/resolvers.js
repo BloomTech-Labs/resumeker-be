@@ -3,10 +3,10 @@ const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
     Query: {
-        getUser: async (parent, _, context) => {
+        getUser: async (_, __, context) => {
             const user = await getUser(context.token);
 
-            // console.log(user, "getUser User");
+            console.log(user, "getUser User");
 
             return { userInfo: JSON.stringify(user) };
         },

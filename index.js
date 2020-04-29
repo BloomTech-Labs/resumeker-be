@@ -34,6 +34,8 @@ apollo.applyMiddleware({ app });
 
 if (!module.parent) {
     app.listen(PORT, () => {
-        console.log(`\n 🚀 Server listening on ${baseURL} 🚀 \n`);
+        console.log(
+            `\n 🚀 Server listening on ${baseURL}${apollo.graphqlPath} 🚀 \n`
+        );
     });
 }

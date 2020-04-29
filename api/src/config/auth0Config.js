@@ -7,7 +7,7 @@ const axios = require("axios");
 //     grant_type: "client_credentials",
 // };
 
-const baseUrl = `https://${process.env.AUTH0_DOMAIN}/api/v2`;
+const baseUrl = process.env.M2M_AUDIENCE;
 
 const config = (token) => ({
     baseUR: baseUrl,
