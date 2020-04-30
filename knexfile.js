@@ -1,4 +1,3 @@
-require("dotenv").config();
 const pg = require("pg");
 
 pg.defaults.ssl = true;
@@ -6,7 +5,7 @@ pg.defaults.ssl = true;
 module.exports = {
     dev: {
         client: "pg",
-        connection: process.env.DATABASE_URL,
+        connection: process.env.DEV_DB_URL,
         // rejectUnauthorized needs to be changed to true in production
         rejectUnauthorized: false,
         migrations: {

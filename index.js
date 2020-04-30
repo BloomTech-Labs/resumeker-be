@@ -1,4 +1,6 @@
+require("dotenv").config();
 const express = require("express");
+
 const { ApolloServer } = require("apollo-server-express");
 const jwt = require("jsonwebtoken");
 const { options } = require("./api/src/config/auth");
@@ -6,8 +8,9 @@ const { options } = require("./api/src/config/auth");
 const typeDefs = require("./api/src/schema/typeDefs");
 const resolvers = require("./api/src/resolvers/resolvers");
 
-const PORT = process.env.PORT || 8000;
-const HOST = process.env.BASE_URL || "localhost";
+/* eslint-disable */
+const PORT = process.env.PORT;
+const HOST = process.env.BASE_URL;
 const baseURL = `http://${HOST}:${PORT}`;
 
 const app = express();
