@@ -6,6 +6,7 @@ module.exports = gql`
         getUser(id: ID!): User
         getAllUsers: [User!]!
         getQuestions(role: RoleInput): [DisplayQuestion!]!
+        helloWorld: String
     }
     type Mutation {
         updateUser(

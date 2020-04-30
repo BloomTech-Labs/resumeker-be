@@ -6,5 +6,9 @@ module.exports = {
             }
             return ctx.user;
         },
+        /* eslint-disable*/
+        helloWorld: async (parent, args, context) => {
+            return "Hello World";
+        },
     },
 };
