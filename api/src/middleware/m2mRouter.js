@@ -15,6 +15,10 @@ const getSub = async (token) => {
     return res.data.sub;
 };
 
+
+
+
+
 const getUser = async (token) => {
     const sub = await getSub(token);
 
@@ -39,6 +43,14 @@ const getUser = async (token) => {
 
     return res.data;
 };
+
+
+
+
+
+
+
+
 
 const updateUser = async (token, user_info) => {
     // console.log(user_info, "User_Info at M2M")
