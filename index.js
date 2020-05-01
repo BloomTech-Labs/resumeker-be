@@ -1,21 +1,18 @@
 require("dotenv").config();
-const express = require("express");
-
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const { options } = require("./api/src/config/auth");
-// GraphQL Schema
-const typeDefs = require("./api/src/schema/typeDefs");
-const resolvers = require("./api/src/resolvers/resolvers");
 
 /* eslint-disable */
 const PORT = process.env.PORT;
 const HOST = process.env.BASE_URL;
 const baseURL = `http://${HOST}:${PORT}`;
 
-const app = express();
+// GraphQL Schema
+const typeDefs = require("./api/src/schema/typeDefs");
+const resolvers = require("./api/src/resolvers/resolvers");
 
-const apollo = new ApolloServer({
+const server = new ApolloServer({
     typeDefs,
     resolvers,
     playground: true,
@@ -30,19 +27,14 @@ const apollo = new ApolloServer({
                 resolve(decoded);
             });
         });
-
         return {
             user,
         };
     },
 });
 
-apollo.applyMiddleware({ app });
-
-if (!module.parent) {
-    app.listen(PORT, () => {
-        console.log(
-            `\n 🚀 Server listening on ${baseURL}${apollo.graphqlPath} 🚀 \n`
-        );
-    });
-}
+// if (!module.parent) {
+server.listen({ port: PORT }).then(({ url }) => {
+    console.log(`\n 🚀 Server listening on ${url} 🚀 \n`);
+});
+// }
