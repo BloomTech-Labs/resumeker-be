@@ -1,35 +1,28 @@
-const express = require("express");
-const { ApolloServer } = require("apollo-server-express");
-const auth = require("./middleware/auth");
-const typeDefs = require("./api/schema/typeDefs");
-const resolvers = require("./resolvers/resolvers");
-const { getToken } = require("./config/auth0Config");
+require("dotenv").config();
+const { ApolloServer } = require("apollo-server");
+const { getUser } = require("./api/src/auth/m2mRouter");
 
-const app = express();
+/* eslint-disable */
+const PORT = process.env.PORT;
+const HOST = process.env.BASE_URL;
+const baseURL = `http://${HOST}:${PORT}`;
 
-// app.use(auth);
+// GraphQL Schema
+const typeDefs = require("./api/src/schema/typeDefs");
+const resolvers = require("./api/src/resolvers/resolvers");
 
-const apollo = new ApolloServer({
-	typeDefs,
-	resolvers,
-	introspection: true,
-	playground: true,
-	context: ({ req }) => {
-		// Get the user token from the headers.
-		const token = req.headers.authorization || "";
-
-		return { token };
-	},
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    playground: true,
+    context: async ({ req }) => {
+        const token = req.headers.authorization || "";
+        const user = await getUser(token);
+        console.log(user, "\n---User in Context---");
+        return { user };
+    },
 });
 
-apollo.applyMiddleware({ app });
-
-const PORT = process.env.PORT;
-
-if (!module.parent) {
-	app.listen(PORT, async () => {
-		console.log(
-			`\n 🚀 Server listening on localhost:${PORT}${apollo.graphqlPath} 🚀 \n`
-		);
-	});
-}
+server.listen({ port: PORT }).then(({ url }) => {
+    console.log(`\n 🚀 Server listening on ${url} 🚀 \n`);
+});
