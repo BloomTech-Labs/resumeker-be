@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { ApolloServer } = require("apollo-server");
-const { getUser } = require("./api/src/middleware/m2mRouter");
+const { getUser } = require("./api/src/auth/m2mRouter");
 
 /* eslint-disable */
 const PORT = process.env.PORT;
