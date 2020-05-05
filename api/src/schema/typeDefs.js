@@ -1,12 +1,12 @@
 const { gql } = require("apollo-server-express");
 
 module.exports = gql`
-    scalar DateTime
     type Query {
         getUser(id: ID!): User
         getAllUsers: [User!]!
         getQuestions(role: RoleInput): [DisplayQuestion!]!
     }
+
     type Mutation {
         updateUser(
             id: ID!
@@ -27,22 +27,25 @@ module.exports = gql`
         lastName: String
         email: String
     }
+
     type WorkHistory {
         id: ID!
-        startDate: DateTime
-        endDate: DateTime
+        startDate: String
+        endDate: String
         title: String
         description: String
         company: String
     }
+
     type EducationHistory {
         id: ID!
         schoolType: SchoolType
         schoolName: String
-        startDate: DateTime
-        endDate: DateTime
+        startDate: String
+        endDate: String
         certName: String
     }
+
     enum SchoolType {
         HIGH_SCHOOL_OR_EQUIVALENT
         UNDERGRADUATE
@@ -86,23 +89,26 @@ module.exports = gql`
         tips: [String]
         role: Role
     }
+
     type AnsweredQuestion {
         id: ID!
         questionText: DisplayQuestion!
         answerText: String!
         user: User
     }
+
     type Hobby {
         id: ID!
         name: String
     }
+
     type Draft {
         id: ID!
         user: User!
         role: Role
         project: [Project]
-        wHistory: [WorkHistory]
-        eHistory: [EducationHistory]
+        work: [WorkHistory]
+        education: [EducationHistory]
         skill: [Skill]
         hobbies: [Hobby]
     }
