@@ -1,12 +1,5 @@
 const axios = require("axios");
 
-// const requestBody = {
-//     client_id: process.env.M2M_CLIENT_ID,
-//     client_secret: process.env.M2M_CLIENT_SECRET,
-//     audience: process.env.M2M_AUDIENCE,
-//     grant_type: "client_credentials",
-// };
-
 const baseUrl = `https://${process.env.AUTH0_DOMAIN}/api/v2`;
 
 const config = (token) => ({
