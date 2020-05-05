@@ -1,14 +1,15 @@
 // const db = require("../database/config/dbConfig");
-const { getUser } = require("../middleware/m2mRouter");
+// const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
     Query: {
         getUser: async (parent, _, context) => {
-            const user = await getUser(context.token);
-
-            // console.log(user, "getUser User");
-
-            return { userInfo: JSON.stringify(user) };
+            const user = {
+                firstName: context.user.given_name,
+                lastName: context.user.family_name,
+                email: context.user.email,
+            };
+            return user;
         },
         // getUpdatedUser: async (parent, _, context) => {
 
