@@ -4,17 +4,16 @@ const { getUser } = require("./api/src/auth/m2mRouter");
 
 /* eslint-disable */
 const PORT = process.env.PORT;
-const HOST = process.env.BASE_URL;
-const baseURL = `http://${HOST}:${PORT}`;
 
 // GraphQL Schema
-const typeDefs = require("./api/src/schema/index");
-const resolvers = require("./api/src/resolvers/resolvers");
+const typeDefs = require("./api/src/graphql/schema/index");
+const resolvers = require("./api/src/graphql/resolvers/resolvers");
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     playground: true,
+    introspection: true,
     context: async ({ req }) => {
         const token = req.headers.authorization || "";
         const user = await getUser(token);
@@ -24,5 +23,5 @@ const server = new ApolloServer({
 });
 
 server.listen({ port: PORT }).then(({ url }) => {
-    console.log(`\n 🚀 Server listening on ${url} 🚀 \n`);
+    console.log(`Server listening on ${url}`);
 });

@@ -1,32 +1,16 @@
 const { gql } = require("apollo-server");
 
-module.exports = gql`
+const resume = gql`
     type Query {
-        getUser(id: ID!): User
-        getAllUsers: [User!]!
         getQuestions(role: RoleInput): [DisplayQuestion!]!
-        helloWorld: String
     }
 
     type Mutation {
-        updateUser(
-            id: ID!
-            firstName: String
-            lastName: String
-            email: String
-        ): User
-        # createWorkHistory()
+        createWorkHistory: WorkHistory
         # updateWorkHistory
         # createEducationHistory
         # updateEducationHistory
         # figure out mutations on skills
-    }
-
-    type User {
-        id: ID!
-        firstName: String
-        lastName: String
-        email: String
     }
 
     type WorkHistory {
@@ -59,6 +43,7 @@ module.exports = gql`
         text: String
         skillType: SkillType
     }
+
     enum SkillType {
         TECHNICAL
         QUALITATIVE
@@ -114,3 +99,5 @@ module.exports = gql`
         hobbies: [Hobby]
     }
 `;
+
+module.exports = resume;
