@@ -1,19 +1,15 @@
-const db = require("../database/config/dbConfig");
+// const db = require("../database/config/dbConfig");
+// const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
     Query: {
-        getUser: async (_, __, ctx) => {
-            if (!ctx.user) {
-                return null;
-            }
-            return ctx.user;
-        },
-        /* eslint-disable*/
-        helloWorld: async (parent, args, context) => {
-            return "Hello World";
-        },
-        getAllUsers: (parent, args, ctx) => {
-            return db("users");
+        getUser: async (parent, _, context) => {
+            const user = {
+                firstName: context.user.given_name,
+                lastName: context.user.family_name,
+                email: context.user.email,
+            };
+            return user;
         },
     },
 };

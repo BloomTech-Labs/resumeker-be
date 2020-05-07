@@ -1,11 +1,11 @@
-const pg = require("pg");
+// const pg = require("pg");
 
-pg.defaults.ssl = true;
+// pg.defaults.ssl = true;
 
 module.exports = {
-    dev: {
+    development: {
         client: "pg",
-        connection: process.env.DEV_DB_URL,
+        connection: "postgresql://localhost/resumeker",
         // rejectUnauthorized needs to be changed to true in production
         rejectUnauthorized: false,
         migrations: {
