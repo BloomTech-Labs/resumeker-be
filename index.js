@@ -8,7 +8,7 @@ const HOST = process.env.BASE_URL;
 const baseURL = `http://${HOST}:${PORT}`;
 
 // GraphQL Schema
-const typeDefs = require("./api/src/schema/typeDefs");
+const typeDefs = require("./api/src/schema/index");
 const resolvers = require("./api/src/resolvers/resolvers");
 
 const server = new ApolloServer({
