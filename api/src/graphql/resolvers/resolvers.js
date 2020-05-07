@@ -1,5 +1,4 @@
-// const db = require("../database/config/dbConfig");
-// const { getUser } = require("../middleware/m2mRouter");
+const fs = require("fs");
 
 module.exports = {
     Query: {
@@ -10,6 +9,9 @@ module.exports = {
                 email: context.user.email,
             };
             return user;
+        },
+        readError: (parent, _, context) => {
+            fs.readFileSync("/does/not/exist");
         },
     },
 };

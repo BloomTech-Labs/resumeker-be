@@ -6,7 +6,7 @@ const { getUser } = require("./api/src/auth/m2mRouter");
 const PORT = process.env.PORT;
 
 // GraphQL Schema
-const typeDefs = require("./api/src/graphql/schema/index");
+const typeDefs = require("./api/src/graphql/schema/typeDefs");
 const resolvers = require("./api/src/graphql/resolvers/resolvers");
 
 const server = new ApolloServer({
@@ -14,6 +14,7 @@ const server = new ApolloServer({
     resolvers,
     playground: true,
     introspection: true,
+    debug: true,
     context: async ({ req }) => {
         const token = req.headers.authorization || "";
         const user = await getUser(token);
