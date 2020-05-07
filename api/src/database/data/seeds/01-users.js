@@ -1,7 +1,7 @@
-exports.seed = function (knex) {
+exports.seed = function userSeed(knex) {
     return knex("users")
         .del()
-        .then(function () {
+        .then(function userTable() {
             return knex("users").insert([
                 {
                     id: 1,

@@ -1,7 +1,7 @@
-exports.seed = function (knex) {
+exports.seed = function eduSeed(knex) {
     return knex("education")
         .del()
-        .then(function () {
+        .then(function eduTable() {
             return knex("education").insert([
                 {
                     userId: 1,
