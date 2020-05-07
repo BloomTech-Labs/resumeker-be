@@ -30,6 +30,7 @@ const getUser = async (token) => {
     return res.data;
 };
 
+/* eslint-disable */
 const updateUser = async (token, user_info) => {
     const userObject = {
         user_metadata: {

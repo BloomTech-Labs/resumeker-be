@@ -6,9 +6,14 @@ pg.defaults.ssl = true;
 module.exports = {
     dev: {
         client: "pg",
-        connection: process.env.DATABASE_URL,
-        // rejectUnauthorized needs to be changed to true in production
-        rejectUnauthorized: false,
+        connection: {
+            host: process.env.DEV_DB_HOST,
+            user: process.env.DEV_DB_USER,
+            password: process.env.DEV_DB_PASS,
+            database: process.env.DEV_DB,
+            ssl: false,
+        },
+        rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTH,
         migrations: {
             directory: "./api/src/database/data/migrations",
         },
