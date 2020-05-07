@@ -1,13 +1,29 @@
-// const pg = require("pg");
+// Requires env due to pre-processing logic prior to export
+require("dotenv").config();
 
-// pg.defaults.ssl = true;
+let connectionConfig = {};
+
+if (process.env.DEV_DB_URL) {
+    connectionConfig = {
+        connection: process.env.DEV_DB_URL,
+    };
+} else {
+    connectionConfig = {
+        connection: {
+            host: process.env.DEV_DB_HOST,
+            user: process.env.DEV_DB_USER,
+            password: process.env.DEV_DB_PASS,
+            database: process.env.DEV_DB,
+            ssl: false,
+        },
+    };
+}
 
 module.exports = {
     development: {
         client: "pg",
-        connection: "postgresql://localhost/resumeker",
-        // rejectUnauthorized needs to be changed to true in production
-        rejectUnauthorized: false,
+        ...connectionConfig,
+        rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTH,
         migrations: {
             directory: "./api/src/database/data/migrations",
         },

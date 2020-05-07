@@ -1,12 +1,9 @@
-exports.up = function (knex) {
+exports.up = function migrateUp(knex) {
     return knex.schema.createTable("users", (table) => {
         table.increments("id").notNullable();
-        table.text("email").notNullable().unique();
-        table.text("firstName").notNullable();
-        table.text("lastName").notNullable();
     });
 };
 
-exports.down = function (knex) {
+exports.down = function migrateDown(knex) {
     return knex.schema.dropTableIfExists("users");
 };
