@@ -1,4 +1,4 @@
-// const db = require("../database/config/dbConfig");
+const db = require("../database/config/dbConfig");
 // const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
@@ -10,6 +10,12 @@ module.exports = {
                 email: context.user.email,
             };
             return user;
+        },
+        getWorkHistory: async (parent, { userId }, context) => {
+            return db("workHistory").where({ userId });
+        },
+        getEducationHistory: async (parent, { userId }, context) => {
+            return db("education").where({ userId });
         },
     },
 };

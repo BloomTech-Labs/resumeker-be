@@ -15,7 +15,7 @@ exports.up = function migrateUp(knex) {
         table.text("certName");
         table.text("courses");
         table
-            .integer("userId")
+            .text("userId")
             .notNullable()
             .references("id")
             .inTable("users")

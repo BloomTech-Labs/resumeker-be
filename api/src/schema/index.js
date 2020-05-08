@@ -5,6 +5,8 @@ module.exports = gql`
         getUser(id: ID!): User
         getAllUsers: [User!]!
         getQuestions(role: RoleInput): [DisplayQuestion!]!
+        getWorkHistory(userId: String!): [WorkHistory]!
+        getEducationHistory(userId: String!): [EducationHistory]!
         helloWorld: String
     }
 
@@ -36,6 +38,7 @@ module.exports = gql`
         title: String
         description: String
         company: String
+        userId: String
     }
 
     type EducationHistory {
@@ -45,6 +48,7 @@ module.exports = gql`
         startDate: String
         endDate: String
         certName: String
+        userId: String
     }
 
     enum SchoolType {

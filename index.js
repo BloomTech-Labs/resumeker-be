@@ -17,7 +17,8 @@ const server = new ApolloServer({
     playground: true,
     context: async ({ req }) => {
         const token = req.headers.authorization || "";
-        const user = await getUser(token);
+        const user = "homie";
+        // const user = await getUser(token);
         console.log(user, "\n---User in Context---");
         return { user };
     },

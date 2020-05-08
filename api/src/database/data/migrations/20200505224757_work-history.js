@@ -6,7 +6,7 @@ exports.up = function migrateUp(knex) {
         table.text("title").notNullable();
         table.text("description").notNullable();
         table
-            .integer("userId")
+            .text("userId")
             .notNullable()
             .references("id")
             .inTable("users")

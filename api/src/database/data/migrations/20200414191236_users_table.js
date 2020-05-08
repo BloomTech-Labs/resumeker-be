@@ -1,6 +1,10 @@
 exports.up = function migrateUp(knex) {
     return knex.schema.createTable("users", (table) => {
-        table.increments("id").notNullable();
+        table.text("id").notNullable().primary();
+        table.text("email").notNullable();
+        table.text("userImageURL").notNullable();
+        table.text("firstName").notNullable();
+        table.text("lastname").notNullable();
     });
 };
 
