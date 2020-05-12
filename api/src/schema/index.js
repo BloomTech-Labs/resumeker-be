@@ -22,6 +22,10 @@ module.exports = gql`
         # createEducationHistory
         # updateEducationHistory
         # figure out mutations on skills
+
+        updateEverything(
+            draft: inputDraft
+        )
     }
 
     type User {
@@ -117,4 +121,5 @@ module.exports = gql`
         skill: [Skill]
         hobbies: [Hobby]
     }
+
 `;

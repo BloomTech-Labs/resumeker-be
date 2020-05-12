@@ -11,11 +11,14 @@ module.exports = {
             };
             return user;
         },
-        getWorkHistory: async (parent, { userId }, context) => {
+        getWorkHistory: async (parent, { userId }, __) => {
             return db("workHistory").where({ userId });
         },
-        getEducationHistory: async (parent, { userId }, context) => {
+        getEducationHistory: async (parent, { userId }, _) => {
             return db("education").where({ userId });
+        },
+        getProject: async (parent, { userId }, _) => {
+            return db("projects").where({ userId });
         },
     },
 };
