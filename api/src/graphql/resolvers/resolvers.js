@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 module.exports = {
     Query: {
         getUser: async (parent, _, context) => {
@@ -12,6 +10,6 @@ module.exports = {
         },
         helloWorld: async (parent, _, context) => {
             return "Hello world";
-        }
+        },
     },
 };
