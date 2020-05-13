@@ -10,8 +10,8 @@ module.exports = {
             };
             return user;
         },
-        readError: (parent, _, context) => {
-            fs.readFileSync("/does/not/exist");
-        },
+        helloWorld: async (parent, _, context) => {
+            return "Hello world";
+        }
     },
 };
