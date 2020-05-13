@@ -13,13 +13,13 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     playground: true,
-    introspection: true,
-    // context: async ({ req }) => {
-    //     const token = process.env.TOKEN || req.headers.authorization;
-    //     const user = await getUser(token);
-    //     console.log(user, `\n---User in Context---`);
-    //     return { user };
-    // },
+    context: async ({ req }) => {
+        // const token = req.headers.authorization || "";
+        // const user = "homie";
+        // const user = await getUser(token);
+        console.log(user, "\n---User in Context---");
+        return { user };
+    },
 });
 
 server.listen({ port: PORT }).then(({ url }) => {

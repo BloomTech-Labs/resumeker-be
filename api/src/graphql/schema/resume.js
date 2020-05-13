@@ -3,6 +3,9 @@ const { gql } = require("apollo-server");
 const resume = gql`
     type Query {
         getQuestions(role: RoleInput): [DisplayQuestion!]!
+        getWorkHistory: [WorkHistory]
+        getEducationHistory: [EducationHistory]
+        getProject: [Project]
     }
 
     type Mutation {

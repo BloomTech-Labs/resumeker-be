@@ -1,4 +1,5 @@
-const fs = require("fs");
+const db = require("../../database/config/dbConfig");
+// const { getUser } = require("../middleware/m2mRouter");
 
 module.exports = {
     Query: {
@@ -10,8 +11,14 @@ module.exports = {
             };
             return user;
         },
-        helloWorld: async (parent, _, context) => {
-            return "Hello world";
-        }
+        getWorkHistory: async (parent, { userId }, __) => {
+            return db("workHistory").where({ userId });
+        },
+        getEducationHistory: async (parent, { userId }, _) => {
+            return db("education").where({ userId });
+        },
+        getProject: async (parent, { userId }, _) => {
+            return db("projects").where({ userId });
+        },
     },
 };
