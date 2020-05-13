@@ -1,6 +1,5 @@
-const { mergeTypes } = require("merge-graphql-schemas");
+const mergeResolvers = require("graphql-merge-resolvers");
 
-const root = require("./root");
 const user = require("./user");
 const draft = require("./draft");
 const role = require("./role");
@@ -11,8 +10,7 @@ const project = require("./project");
 const questions = require("./questions");
 const hobby = require("./hobby");
 
-const schemaArray = [
-    root,
+const mainResolver = [
     user,
     draft,
     role,
@@ -24,4 +22,4 @@ const schemaArray = [
     hobby,
 ];
 
-module.exports = mergeTypes(schemaArray);
+module.exports = mergeResolvers.merge(mainResolver);
