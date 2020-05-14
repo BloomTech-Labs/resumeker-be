@@ -25,10 +25,10 @@ module.exports = {
         ...connectionConfig,
         rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTH,
         migrations: {
-            directory: "./api/src/database/data/migrations",
+            directory: "./database/data/migrations",
         },
         seeds: {
-            directory: "./api/src/database/data/seeds",
+            directory: "./database/data/seeds",
         },
     },
     test: {
