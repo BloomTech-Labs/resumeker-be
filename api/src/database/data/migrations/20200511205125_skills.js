@@ -1,7 +1,7 @@
 exports.up = function migrateUp(knex) {
     return knex.schema.createTable("skills", (table) => {
         table.increments("id").notNullable();
-        table.text("skillType").notNullable();
+        table.enu("skillType", ["Technical", "Qualitative"]).notNullable();
         table.text("name").notNullable();
         table
             .text("userId")

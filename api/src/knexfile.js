@@ -1,8 +1,8 @@
 // Requires env due to pre-processing logic prior to export
-require("dotenv").config();
+require("dotenv").config({ path: "../../.env" });
 
 let connectionConfig = {};
-
+console.log(process.env.DEV_DB_URL, "<- DEV_DB_URL");
 if (process.env.DEV_DB_URL) {
     connectionConfig = {
         connection: process.env.DEV_DB_URL,

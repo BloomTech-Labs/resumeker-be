@@ -4,10 +4,10 @@ const user = require("./user");
 const draft = require("./draft");
 const role = require("./role");
 const work = require("./work");
-const skills = require("./skills");
+const skills = require("./skill");
 const education = require("./education");
 const project = require("./project");
-const questions = require("./questions");
+const questions = require("./question");
 const hobby = require("./hobby");
 
 const mainResolver = [

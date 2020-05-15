@@ -1,6 +1,9 @@
 const { gql } = require("apollo-server");
 
 const work = gql`
+    type Query {
+        getWorkHistory: [WorkHistory]!
+    }
     #type Mutation {
     # createWorkHistory: WorkHistory
     # updateWorkHistory

@@ -4,7 +4,7 @@ exports.up = function migrateUp(knex) {
         table.text("question").notNullable();
         table.text("title").notNullable();
         table
-            .text("roleId")
+            .integer("roleId")
             .notNullable()
             .references("id")
             .inTable("roles")

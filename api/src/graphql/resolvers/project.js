@@ -6,4 +6,12 @@ module.exports = {
             return db("projects").where({ userId });
         },
     },
+    Mutation: {
+        createProject: async (parent, { userId }, _) => {
+            // function
+        },
+        updateProject: async (parent, { userId }, _) => {
+            // function
+        },
+    },
 };
