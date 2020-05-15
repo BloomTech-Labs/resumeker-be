@@ -11,5 +11,8 @@ module.exports = {
             };
             return user;
         },
+        helloWorld: async (parent, _, context) => {
+            return "Hello World";
+        },
     },
 };
