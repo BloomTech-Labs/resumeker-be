@@ -2,18 +2,19 @@ const { gql } = require("apollo-server");
 
 const questions = gql`
     type Query {
-        getQuestions(role: RoleInput): [DisplayQuestion!]!
+        getQuestions(roleId: ID!): [DisplayQuestion!]!
     }
 
-    #type Mutation {
-    # figure out mutations on display questions
-    #}
+    type Mutation {
+        createQuestion(id: ID!): DisplayQuestion!
+        updateQuestion(id: ID!): DisplayQuestion!
+    }
 
     type DisplayQuestion {
         id: ID!
-        text: String
-        tips: [String]
-        role: Role
+        roleId: ID!
+        question: String!
+        title: String!
     }
 
     type AnsweredQuestion {

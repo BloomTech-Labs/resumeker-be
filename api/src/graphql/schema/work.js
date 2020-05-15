@@ -4,10 +4,10 @@ const work = gql`
     type Query {
         getWorkHistory: [WorkHistory]!
     }
-    #type Mutation {
-    # createWorkHistory: WorkHistory
-    # updateWorkHistory
-    #}
+    type Mutation {
+        createWorkHistory(id: ID!): WorkHistory
+        updateWorkHistory(id: ID!): WorkHistory
+    }
 
     type WorkHistory {
         id: ID!
