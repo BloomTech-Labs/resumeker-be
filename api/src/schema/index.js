@@ -1,10 +1,11 @@
-const { gql } = require("apollo-server-express");
+const { gql } = require("apollo-server");
 
 module.exports = gql`
     type Query {
         getUser(id: ID!): User
         getAllUsers: [User!]!
         getQuestions(role: RoleInput): [DisplayQuestion!]!
+        helloWorld: String
     }
 
     type Mutation {

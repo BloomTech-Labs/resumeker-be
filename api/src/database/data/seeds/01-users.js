@@ -1,19 +1,17 @@
-exports.seed = async function (knex) {
-    await knex("users").insert([
-        {
-            email: "tester1@testseed.com",
-            firstName: "Test User",
-            lastName: "1",
-        },
-        {
-            email: "tester2@testseed.com",
-            firstName: "Test User",
-            lastName: "2",
-        },
-        {
-            email: "tester3@testseed.com",
-            firstName: "Test User",
-            lastName: "3",
-        },
-    ]);
+exports.seed = function userSeed(knex) {
+    return knex("users")
+        .del()
+        .then(function userTable() {
+            return knex("users").insert([
+                {
+                    id: 1,
+                },
+                {
+                    id: 2,
+                },
+                {
+                    id: 3,
+                },
+            ]);
+        });
 };

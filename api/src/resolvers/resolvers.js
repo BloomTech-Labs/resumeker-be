@@ -11,27 +11,8 @@ module.exports = {
             };
             return user;
         },
-        // getUpdatedUser: async (parent, _, context) => {
-
-        //         const updated_user = await updateUser(context.user_info);
-
-        //         console.log(updated_user, "updated user");
-
-        //         return {userInfo: JSON.stringify(updated_user)};
-        //     },
+        helloWorld: async (parent, _, context) => {
+            return "Hello World";
+        },
     },
-    // Mutation: {
-    //     createUser: (parent, { data }) => {
-    //         return db("users").insert({ data });
-    //     },
-    //     getUpdatedUser: async (_, args, context) => {
-    //         // console.log(args, "getUpdatedUser Body");
-
-    //         const updatedUser = await updateUser(context.token, args);
-
-    //         // console.log(updatedUser, "Updated User Holy Grail =====");
-
-    //         return { userInfo: JSON.stringify(updatedUser) };
-    //     },
-    // },
 };
