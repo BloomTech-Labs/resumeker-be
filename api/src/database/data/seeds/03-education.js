@@ -12,6 +12,15 @@ exports.seed = function eduSeed(knex) {
                     certName: "Cert",
                     courses: "A Course",
                 },
+                {
+                    userId: "1",
+                    schoolType: "BOOTCAMP_OR_EQUIVALENT",
+                    schoolName: "A&M",
+                    startDate: "2000-02-12",
+                    endDate: "2004-06-24",
+                    certName: "Cert A",
+                    courses: "Another Course",
+                },
             ]);
         });
 };

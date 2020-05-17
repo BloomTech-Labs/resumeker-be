@@ -14,7 +14,7 @@ const questions = gql`
         id: ID!
         roleId: ID!
         question: String!
-        title: String!
+        tip: String!
     }
 
     type AnsweredQuestion {
