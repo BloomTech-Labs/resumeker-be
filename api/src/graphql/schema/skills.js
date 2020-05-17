@@ -1,9 +1,13 @@
 const { gql } = require("apollo-server");
 
 const skills = gql`
-    # type Mutation {
-    # figure out skills mutations
-    # }
+    type Query {
+        getSkills: [Skill!]!
+    }
+    type Mutation {
+        createSkill(id: ID!): Skill!
+        updateSkill(id: ID!): Skill!
+    }
 
     type Skill {
         id: ID!

@@ -2,7 +2,7 @@ const db = require("../../database/config/dbConfig");
 
 module.exports = {
     Query: {
-        getHobby: (__, { userId }) => {
+        getHobbies: (__, { userId }) => {
             return db("hobbies").where({ userId });
         },
     },

@@ -1,6 +1,6 @@
 exports.up = function migrateUp(knex) {
     return knex.schema.createTable("roles", (table) => {
-        table.increments("id").notNullable();
+        table.increments("id").notNullable().unique();
         table.text("name").notNullable();
         table
             .text("userId")
