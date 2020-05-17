@@ -1,20 +1,15 @@
 const jwt = require("jsonwebtoken");
 const jwksRsa = require("jwks-rsa");
 
-const authConfig = {
-    domain: "dev-cwmo2php.auth0.com",
-    audience: "https://graphql-api",
-};
-
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
+        jwksUri: `${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
     }),
-    audience: authConfig.audience,
-    issuer: `https://${authConfig.domain}/`,
+    audience: process.env.AUTH0_AUDIENCE,
+    issuer: process.env.AUTH0_DOMAIN,
     algorithm: ["RS256"],
 });
 
