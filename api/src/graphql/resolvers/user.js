@@ -15,8 +15,12 @@ module.exports = {
         },
     },
     Mutation: {
-        createUser: async (parent, args) => {
-            return db("users").insert({ args }, ["id"]);
+        createUser: async (parent, _, context) => {
+            const [{ id }] = await db("users").insert(
+                { id: context.decoded.sub },
+                ["id"]
+            );
+            return { id };
         },
         updateUser: async (parent, args) => {
             return db("users")

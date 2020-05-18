@@ -2,6 +2,7 @@ require("dotenv").config();
 const { ApolloServer, AuthenticationError } = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
+const { promisify } = require("util");
 
 // GraphQL Schema
 const typeDefs = require("./api/src/graphql/schema/index");
@@ -11,15 +12,12 @@ const client = jwksClient({
     jwksUri: `${process.env.AUTH0_DOMAIN}.well-known/jwks.json`,
 });
 
-const getKey = (header, cb) => {
-    client.getSigningKey(header.kid, (err, key) => {
-        if (err) {
-            cb(err);
-        } else {
-            const signingKey = key.publicKey || key.rsaPublicKey;
-            cb(null, signingKey);
-        }
-    });
+const incomingKey = promisify(client.getSigningKey);
+
+const getUtilKey = async (header) => {
+    const result = await incomingKey(header.kid);
+
+    return result.publicKey;
 };
 
 const server = new ApolloServer({
@@ -35,21 +33,16 @@ const server = new ApolloServer({
         const token = req.headers.authorization || "";
         const bearerToken = token.match(/^Bearer\s+(.*)/)[1];
 
-        jwt.verify(
-            bearerToken,
-            getKey,
-            {
-                audience: process.env.AUTHO0_AUDIENCE,
-                issuer: process.env.AUTH0_DOMAIN,
-                algorithms: ["RS256"],
-            },
-            (error, decoded) => {
-                if (error) {
-                    throw new AuthenticationError(error);
-                }
-                return { user: decoded.sub };
-            }
-        );
+        const decodedToken = jwt.decode(bearerToken, { complete: true });
+        const signingKey = await getUtilKey(decodedToken.header);
+
+        const decoded = jwt.verify(bearerToken, signingKey, {
+            audience: process.env.AUTHO0_AUDIENCE,
+            issuer: process.env.AUTH0_DOMAIN,
+            algorithms: ["RS256"],
+        });
+
+        return { decoded };
     },
 });
 
