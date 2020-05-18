@@ -7,15 +7,12 @@ const user = gql`
     }
 
     type Mutation {
-        createUser(id: ID!): User!
+        createUser: User!
         updateUser(id: ID!): User!
     }
 
     type User {
         id: ID!
-        firstName: String
-        lastName: String
-        email: String
     }
 `;
 
