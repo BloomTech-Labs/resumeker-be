@@ -5,7 +5,7 @@ const jwksClient = require("jwks-rsa");
 
 // GraphQL Schema
 const typeDefs = require("./api/src/graphql/schema/index");
-const resolvers = require("./api/src/graphql/resolvers/resolvers");
+const resolvers = require("./api/src/graphql/resolvers/index.js");
 
 const client = jwksClient({
     jwksUri: `${process.env.AUTH0_DOMAIN}.well-known/jwks.json`,
@@ -54,5 +54,6 @@ const server = new ApolloServer({
 });
 
 server.listen({ port: process.env.PORT }).then(({ url }) => {
+    /* eslint-disable no-console */
     console.log(`\n 🚀 Server listening on ${url} 🚀 \n`);
 });
