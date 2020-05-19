@@ -65,7 +65,6 @@ module.exports = {
                     "id",
                 ]
             );
-            console.log(updated);
             return updated;
         },
     },
