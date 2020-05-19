@@ -7,7 +7,7 @@ exports.up = (knex) =>
 
 exports.down = (knex) =>
     knex.schema.table("users", (table) => {
-        table.text("email").notNullable();
-        table.text("firstName").notNullable();
-        table.text("lastName").notNullable();
+        table.text("email");
+        table.text("firstName");
+        table.text("lastName");
     });
