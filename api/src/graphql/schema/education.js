@@ -36,10 +36,10 @@ const education = gql`
     }
 
     enum SchoolType {
-        HIGH_SCHOOL_OR_EQUIVALENT
         UNDERGRADUATE
-        BOOTCAMP_OR_EQUIVALENT
-        POST_SECONDARY
+        CERTIFICATION
+        GRADUATE
+        COURSE
     }
 `;
 
