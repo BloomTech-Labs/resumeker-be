@@ -14,5 +14,9 @@ module.exports = {
         getDrafts: (_, __, { decoded }) =>
             drafts.where({ user_id: decoded.sub }),
     },
-    Mutation: {},
+    Mutation: {
+        addDraft: () => {},
+        updateDraft: () => {},
+        deleteDraft: () => {},
+    },
 };
