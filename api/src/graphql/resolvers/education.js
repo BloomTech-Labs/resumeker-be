@@ -1,17 +1,72 @@
 const db = require("../../database/config/dbConfig");
 
+const education = db("education");
+
 module.exports = {
     Query: {
-        getEducationHistory: async (__, { userId }) => {
-            return db("education").where({ userId });
-        },
+        getEducation: (__, ___, { decoded }) =>
+            education.where({ userId: decoded.sub }),
     },
     Mutation: {
-        createEducationHistory: async (parent, { userId }, ctx) => {
-            // function
+        addEducation: async (
+            __,
+            { schoolName, schoolType, startDate, endDate, certName },
+            { decoded }
+        ) => {
+            const [inserted] = await education.insert(
+                {
+                    schoolName,
+                    schoolType,
+                    startDate,
+                    endDate,
+                    certName,
+                    userId: decoded.sub,
+                },
+                [
+                    "schoolName",
+                    "schoolType",
+                    "startDate",
+                    "endDate",
+                    "certName",
+                    "userId",
+                    "id",
+                ]
+            );
+            return inserted;
         },
-        updateEducationHistory: async (parent, { userId }, ctx) => {
-            // function
+        updateEducation: async (
+            __,
+            {
+                schoolName,
+                schoolType,
+                startDate,
+                endDate,
+                certName,
+                educationID,
+            },
+            { decoded }
+        ) => {
+            const [updated] = await education.where({ id: educationID }).update(
+                {
+                    schoolName,
+                    schoolType,
+                    startDate,
+                    endDate,
+                    certName,
+                    userId: decoded.sub,
+                },
+                [
+                    "schoolName",
+                    "schoolType",
+                    "startDate",
+                    "endDate",
+                    "certName",
+                    "userId",
+                    "id",
+                ]
+            );
+            console.log(updated);
+            return updated;
         },
     },
 };
