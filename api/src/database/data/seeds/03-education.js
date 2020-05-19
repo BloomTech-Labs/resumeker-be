@@ -5,7 +5,7 @@ exports.seed = function eduSeed(knex) {
             return knex("education").insert([
                 {
                     userId: "google-oauth2|106346646323547324114",
-                    schoolType: "UNDERGRAD",
+                    schoolType: "UNDERGRADUATE",
                     schoolName: "UCLA",
                     startDate: "1995-02-11",
                     endDate: "2000-02-12",
@@ -14,7 +14,7 @@ exports.seed = function eduSeed(knex) {
                 },
                 {
                     userId: "1",
-                    schoolType: "BOOTCAMP_OR_EQUIVALENT",
+                    schoolType: "COURSE",
                     schoolName: "A&M",
                     startDate: "2000-02-12",
                     endDate: "2004-06-24",
