@@ -6,7 +6,7 @@ const questions = gql`
     }
 
     type Mutation {
-        createQuestion(id: ID!): DisplayQuestion!
+        addQuestion(id: ID!): DisplayQuestion!
         updateQuestion(id: ID!): DisplayQuestion!
     }
 

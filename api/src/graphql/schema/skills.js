@@ -5,12 +5,17 @@ const skills = gql`
         getSkills: [Skill!]!
     }
     type Mutation {
-        createSkill(id: ID!): Skill!
+        addSkill(id: ID!): Skill!
         updateSkill(id: ID!): Skill!
     }
 
     type Skill {
         id: ID!
+        text: String
+        skillType: SkillType
+    }
+
+    input SkillInput {
         text: String
         skillType: SkillType
     }

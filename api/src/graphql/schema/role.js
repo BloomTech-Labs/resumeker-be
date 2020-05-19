@@ -6,11 +6,15 @@ const role = gql`
         getRole(userId: ID!): Role!
     }
     type Mutation {
-        createRole(id: ID!): Role!
+        addRole(id: ID!): Role!
         updateRole(id: ID!): Role!
     }
     type Role {
         id: ID!
+        userId: ID!
+        name: String
+    }
+    input RoleInput {
         userId: ID!
         name: String
     }

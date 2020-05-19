@@ -26,7 +26,15 @@ const education = gql`
 
     type EducationHistory {
         id: ID!
-        userId: ID
+        schoolType: SchoolType
+        schoolName: String
+        startDate: String
+        endDate: String
+        certName: String
+        courses: String
+    }
+
+    input EducationHistoryInput {
         schoolType: SchoolType
         schoolName: String
         startDate: String

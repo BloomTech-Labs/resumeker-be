@@ -5,6 +5,20 @@ const draft = gql`
         getDraft(draftID: ID!): Draft!
         getDrafts: [Draft]!
     }
+
+    type Mutation {
+        addDraft: Int!
+        updateDraft(
+            draftID: ID!
+            role: RoleInput
+            project: ProjectInput
+            work: [WorkHistoryInput]
+            education: [EducationHistoryInput]
+            skill: [SkillInput]
+            hobbies: [HobbyInput]
+        ): Draft!
+        deleteDraft: Boolean
+    }
     type Draft {
         id: ID!
         user: User!

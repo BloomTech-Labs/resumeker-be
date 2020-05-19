@@ -7,7 +7,7 @@ const project = gql`
     }
 
     type Mutation {
-        createProject: Project
+        addProject: Project
         updateProject: Project
     }
 
@@ -16,6 +16,13 @@ const project = gql`
         userId: ID!
         title: String
         role: Role
+        projectUrl: String
+        description: String
+    }
+    input ProjectInput {
+        userId: ID!
+        title: String
+        role: RoleInput
         projectUrl: String
         description: String
     }

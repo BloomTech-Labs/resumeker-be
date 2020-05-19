@@ -6,7 +6,7 @@ const languages = gql`
     }
 
     type Mutation {
-        createLanguage: Language
+        addLanguage: Language
         updateLanguage: Language
     }
 
