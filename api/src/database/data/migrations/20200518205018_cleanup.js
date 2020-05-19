@@ -11,7 +11,7 @@ exports.up = async (knex) => {
 exports.down = async (knex) => {
     await knex.schema.alterTable("workHistory", (table) => {
         table.dropColumn("company");
-        table.text("startDate").unique();
+        table.text("startDate").unique().alter();
     });
     await knex.schema.alterTable("projects", (table) => {
         // remove role descriptions
