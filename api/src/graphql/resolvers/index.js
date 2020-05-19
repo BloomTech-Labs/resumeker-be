@@ -9,6 +9,7 @@ const education = require("./education");
 const project = require("./project");
 const questions = require("./question");
 const hobby = require("./hobby");
+const languages = require("./languages");
 
 const mainResolver = [
     user,
@@ -20,6 +21,7 @@ const mainResolver = [
     project,
     questions,
     hobby,
+    languages,
 ];
 
 module.exports = mergeResolvers.merge(mainResolver);

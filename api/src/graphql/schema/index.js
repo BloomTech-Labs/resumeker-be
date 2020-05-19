@@ -10,6 +10,7 @@ const education = require("./education");
 const project = require("./project");
 const questions = require("./questions");
 const hobby = require("./hobby");
+const languages = require("./languages");
 
 const schemaArray = [
     root,
@@ -22,6 +23,7 @@ const schemaArray = [
     project,
     questions,
     hobby,
+    languages,
 ];
 
 module.exports = mergeTypes(schemaArray);
