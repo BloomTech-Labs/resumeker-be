@@ -1,5 +1,5 @@
 exports.up = (knex) =>
-    knex.schema.table("languages", (table) => {
+    knex.schema.createTable("languages", (table) => {
         table.increments("id").notNull();
         table.text("language");
     });
