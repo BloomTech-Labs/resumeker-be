@@ -9,6 +9,7 @@ exports.seed = function workSeed(knex) {
                     endDate: "2010-12-31",
                     title: "Senior Developer",
                     description: "Wrote The Dopest Code",
+                    company: "La Taqueria",
                 },
             ]);
         });
