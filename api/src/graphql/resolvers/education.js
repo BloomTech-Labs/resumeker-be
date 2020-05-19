@@ -5,7 +5,7 @@ const education = db("education");
 module.exports = {
     Query: {
         getEducation: (__, ___, { decoded }) =>
-            education.where({ userId: decoded.sub }),
+            education.where({ userID: decoded.sub }),
     },
     Mutation: {
         addEducation: async (
@@ -20,7 +20,7 @@ module.exports = {
                     startDate,
                     endDate,
                     certName,
-                    userId: decoded.sub,
+                    userID: decoded.sub,
                 },
                 [
                     "schoolName",
@@ -28,7 +28,7 @@ module.exports = {
                     "startDate",
                     "endDate",
                     "certName",
-                    "userId",
+                    "userID",
                     "id",
                 ]
             );
@@ -53,7 +53,7 @@ module.exports = {
                     startDate,
                     endDate,
                     certName,
-                    userId: decoded.sub,
+                    userID: decoded.sub,
                 },
                 [
                     "schoolName",
@@ -61,7 +61,7 @@ module.exports = {
                     "startDate",
                     "endDate",
                     "certName",
-                    "userId",
+                    "userID",
                     "id",
                 ]
             );

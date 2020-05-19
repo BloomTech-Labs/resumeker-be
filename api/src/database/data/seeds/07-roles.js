@@ -7,7 +7,7 @@ exports.seed = function roleSeed(knex) {
             return knex("roles").insert([
                 {
                     id: "1",
-                    userId: "google-oauth2|106346646323547324114",
+                    userID: "google-oauth2|106346646323547324114",
                     name: "Full Stack Engineer",
                 },
             ]);

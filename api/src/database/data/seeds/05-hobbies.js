@@ -6,11 +6,11 @@ exports.seed = function hobbySeed(knex) {
             // Inserts seed entries
             return knex("hobbies").insert([
                 {
-                    userId: "google-oauth2|106346646323547324114",
+                    userID: "google-oauth2|106346646323547324114",
                     name: "Fishing",
                 },
                 {
-                    userId: "google-oauth2|106346646323547324114",
+                    userID: "google-oauth2|106346646323547324114",
                     name: "Knitting",
                 },
             ]);

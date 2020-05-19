@@ -15,7 +15,7 @@ addMocksToSchema({ schema });
 
 const getEducationQuery = `
     query getEducationHistory {
-        getEducationHistory(userId: "1") { 
+        getEducationHistory(userID: "1") { 
             schoolName
         }
     }

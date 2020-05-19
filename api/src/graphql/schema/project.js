@@ -2,8 +2,8 @@ const { gql } = require("apollo-server");
 
 const project = gql`
     type Query {
-        getProject(userId: ID!): Project!
-        getProjects(userId: ID!): [Project!]!
+        getProject(userID: ID!): Project!
+        getProjects(userID: ID!): [Project!]!
     }
 
     type Mutation {
@@ -13,14 +13,14 @@ const project = gql`
 
     type Project {
         id: ID!
-        userId: ID!
+        userID: ID!
         title: String
         role: Role
         projectUrl: String
         description: String
     }
     input ProjectInput {
-        userId: ID!
+        userID: ID!
         title: String
         role: RoleInput
         projectUrl: String

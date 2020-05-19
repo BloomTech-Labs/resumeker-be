@@ -4,7 +4,7 @@ exports.seed = function eduSeed(knex) {
         .then(function eduTable() {
             return knex("education").insert([
                 {
-                    userId: "google-oauth2|106346646323547324114",
+                    userID: "google-oauth2|106346646323547324114",
                     schoolType: "UNDERGRADUATE",
                     schoolName: "UCLA",
                     startDate: "1995-02-11",
@@ -13,7 +13,7 @@ exports.seed = function eduSeed(knex) {
                     courses: "A Course",
                 },
                 {
-                    userId: "1",
+                    userID: "1",
                     schoolType: "COURSE",
                     schoolName: "A&M",
                     startDate: "2000-02-12",

@@ -9,7 +9,7 @@ exports.up = function migrateUp(knex) {
         table.text("projectUrl").notNullable();
         table.text("description").notNullable();
         table
-            .text("userId")
+            .text("userID")
             .notNullable()
             .references("id")
             .inTable("users")

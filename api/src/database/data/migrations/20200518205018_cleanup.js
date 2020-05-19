@@ -15,6 +15,6 @@ exports.down = async (knex) => {
     });
     await knex.schema.alterTable("projects", (table) => {
         // remove role descriptions
-        table.text("roleDescription").notNullable();
+        table.text("roleDescription");
     });
 };

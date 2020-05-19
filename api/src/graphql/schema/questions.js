@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 const questions = gql`
     type Query {
-        getQuestions(roleId: ID!): [DisplayQuestion!]!
+        getQuestions(roleID: ID!): [DisplayQuestion!]!
     }
 
     type Mutation {
@@ -12,7 +12,7 @@ const questions = gql`
 
     type DisplayQuestion {
         id: ID!
-        roleId: ID!
+        roleID: ID!
         question: String!
         tip: String!
     }

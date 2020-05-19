@@ -4,7 +4,7 @@ exports.up = function migrateUp(knex) {
         table.enu("skillType", ["Technical", "Qualitative"]).notNullable();
         table.text("name").notNullable();
         table
-            .text("userId")
+            .text("userID")
             .notNullable()
             .references("id")
             .inTable("users")
