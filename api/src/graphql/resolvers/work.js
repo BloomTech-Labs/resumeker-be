@@ -7,7 +7,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createWorkHistory: async (parent, args) => {
+        addWorkHistory: async (parent, args) => {
             return db("workHistory").insert({ args }, ["id"]);
         },
         updateWorkHistory: async (parent, args) => {

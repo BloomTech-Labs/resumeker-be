@@ -7,7 +7,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createRole: async (parent, args) => {
+        addRole: async (parent, args) => {
             return db("roles").insert({ args }, ["id"]);
         },
         updateRole: async (parent, args) => {

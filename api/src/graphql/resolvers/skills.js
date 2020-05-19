@@ -7,7 +7,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createSkill: async (parent, args) => {
+        addSkill: async (parent, args) => {
             return db("skills").insert({ args }, ["id"]);
         },
         updateSkill: async (parent, args) => {

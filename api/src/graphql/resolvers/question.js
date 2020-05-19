@@ -7,7 +7,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createQuestion: async (parent, args) => {
+        addQuestion: async (parent, args) => {
             return db("questions").insert({ args }, ["id"]);
         },
         updateQuestion: async (parent, args) => {

@@ -7,7 +7,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createHobby: async (parent, { userId }, _) => {
+        addHobby: async (parent, { userId }, _) => {
             // function
         },
         updateHobby: async (parent, { userId }, _) => {

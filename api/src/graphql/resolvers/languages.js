@@ -7,8 +7,8 @@ module.exports = {
         },
     },
     Mutation: {
-        createLanguage: async (parent, args) => {
-            // create language logic
+        addLanguage: async (parent, args) => {
+            // add language logic
         },
         updateLanguage: async (parent, args) => {
             // update language logic

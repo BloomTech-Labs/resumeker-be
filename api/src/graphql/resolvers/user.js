@@ -15,7 +15,7 @@ module.exports = {
         },
     },
     Mutation: {
-        createUser: async (parent, _, context) => {
+        addUser: async (parent, _, context) => {
             const [{ id }] = await db("users").insert(
                 { id: context.decoded.sub },
                 ["id"]
