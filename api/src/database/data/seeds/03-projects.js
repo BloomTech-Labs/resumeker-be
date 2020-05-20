@@ -10,7 +10,6 @@ exports.seed = function projSeed(knex) {
                     title: "Resumeker",
                     startDate: "2020-02-30",
                     endDate: "2020-06-20",
-                    role: "Back end dev",
                     projectUrl:
                         "https://github.com/Lambda-School-Labs/resumeker-be",
                     description: "The best backend you ever seen",
