@@ -10,12 +10,12 @@ module.exports = {
             { decoded, throwAuthError }
         ) => {
             const result = await education
-                .select("*")
+                .select("education.*", "drafts.userID")
                 .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
                 .where({ draftID });
 
             // if array isn't empty, and the id doesn't match
-            if (result.length > 0 && result.userID !== decoded.sub) {
+            if (result.length > 0 && result[0].userID !== decoded.sub) {
                 throwAuthError();
             }
             return education;
