@@ -2,17 +2,17 @@ const { gql } = require("apollo-server");
 
 const languages = gql`
     type Query {
-        getLanguages(userID: ID!): [Project!]!
+        getLanguages(draftID: ID!): [Language]!
     }
 
     type Mutation {
-        addLanguage: Language
-        updateLanguage: Language
+        addLanguage(draftID: ID!, language: String): Language
+        updateLanguage(draftID: ID!, language: String): Language
     }
 
     type Language {
         id: ID!
-        userID: ID!
+        draftID: ID!
         language: String!
     }
 `;
