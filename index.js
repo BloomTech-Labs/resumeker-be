@@ -20,15 +20,19 @@ const getUtilKey = async (header) => {
     return result.publicKey;
 };
 
+const throwAuthError = () => {
+    throw new AuthenticationError(
+        "You must be authenticated or authorized to perform this operation."
+    );
+};
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     playground: true,
     context: async ({ req }) => {
         if (!req.headers.authorization) {
-            throw new AuthenticationError(
-                "You must include a token in the authorzation."
-            );
+            throwError();
         }
         const token = req.headers.authorization || "";
         const bearerToken = token.match(/^Bearer\s+(.*)/)[1];
@@ -42,7 +46,7 @@ const server = new ApolloServer({
             algorithms: ["RS256"],
         });
 
-        return { decoded };
+        return { decoded, throwAuthError };
     },
 });
 
