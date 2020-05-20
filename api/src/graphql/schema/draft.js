@@ -3,25 +3,18 @@ const { gql } = require("apollo-server");
 const draft = gql`
     type Query {
         getDraft(draftID: ID!): Draft!
-        getDrafts: [Draft]!
+        getDrafts(userID: ID!): [Draft]!
     }
 
     type Mutation {
-        addDraft(email: String, name: String): Int!
-        updateDraft(
-            draftID: ID!
-            role: RoleInput
-            project: ProjectInput
-            work: [WorkHistoryInput]
-            education: [EducationHistoryInput]
-            skill: [SkillInput]
-            hobbies: [String]
-        ): Draft!
-        deleteDraft: Boolean
+        # returns ID of Draft created
+        addDraft(input: DraftInput): Int!
+        updateDraft(draftID: ID!, input: DraftInput): Draft!
+        deleteDraft(draftID: ID!): Boolean
     }
     type Draft {
         id: ID!
-        user: ID!
+        userID: ID!
         email: String!
         name: String!
         role: Role
@@ -30,6 +23,17 @@ const draft = gql`
         education: [EducationHistory]
         skill: [Skill]
         hobbies: [Hobby]
+    }
+
+    input DraftInput {
+        email: String!
+        name: String!
+        role: RoleInput
+        project: ProjectInput
+        work: [WorkHistoryInput]
+        education: [EducationHistoryInput]
+        skill: [SkillInput]
+        hobbies: [String]
     }
 `;
 
