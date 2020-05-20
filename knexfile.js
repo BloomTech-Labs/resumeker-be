@@ -25,17 +25,17 @@ module.exports = {
         ...connectionConfig,
         rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTH,
         migrations: {
-            directory: "./database/data/migrations",
+            directory: "./api/src/database/data/migrations",
         },
         seeds: {
-            directory: "./database/data/seeds",
+            directory: "./api/src/database/data/seeds",
         },
     },
-    test: {
+    staging: {
         client: "pg",
-        connection: process.env.DATABASE_URL,
+        connection: process.env.STAGING_DB_URL,
         // rejectUnauthorized needs to be changed to true in production
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
         migrations: {
             directory: "./api/src/database/data/migrations",
         },
