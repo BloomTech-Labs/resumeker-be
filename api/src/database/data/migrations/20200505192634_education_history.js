@@ -1,6 +1,8 @@
 exports.up = function migrateUp(knex) {
     return knex.schema.createTable("education", (table) => {
         table.increments("id").notNullable();
+        table.varchar("draftID").notNullable();
+        table.foreign("draftID").references("drafts.id");
         table
             .enu("schoolType", [
                 "UNDERGRADUATE",
