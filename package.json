@@ -8,7 +8,7 @@
     "main": "index.js",
     "scripts": {
         "server": "nodemon index.js",
-        "start": "node src/index.js",
+        "start": "node index.js",
         "db-remake": "psql -U postgres remakeDatabase.sql",
         "knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
         "total-reset": "yarn db-remake && yarn knex-refresh",
@@ -46,6 +46,7 @@
         "express-jwt": "^5.3.3",
         "graphql": "^14.6.0",
         "graphql-merge-resolvers": "^1.1.16",
+        "graphql-tools": "^5.0.0",
         "helmet": "^3.21.3",
         "jsonwebtoken": "^8.5.1",
         "jwks-rsa": "^1.7.0",
