@@ -31,7 +31,6 @@ module.exports = {
                 .select("education.*", "drafts.userID")
                 .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
                 .where({ draftID });
-
             // if array isn't empty, and the id doesn't match
             if (results.length > 0 && results[0].userID !== decoded.sub) {
                 throwAuthError();
@@ -49,6 +48,10 @@ module.exports = {
         ) => {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
+
+            if (draft.length === 0) {
+                throw Error("Draft does not exist.");
+            }
 
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
