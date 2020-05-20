@@ -7,7 +7,10 @@ exports.seed = function userSeed(knex) {
                     id: "google-oauth2|106346646323547324114",
                 },
                 {
-                    id: "1",
+                    id: "linkedin-oauth2|106346646323547324114",
+                },
+                {
+                    id: "github-oauth2|106346646323547324114",
                 },
             ]);
         });
