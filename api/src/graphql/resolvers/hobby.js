@@ -5,16 +5,30 @@ const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        getHobbies: async (__, { draftID }, { throwAuthError, decoded }) => {
-            const result = await hobbies
+        getHobby: async (_, { hobbyID }, { decoded, throwAuthError }) => {
+            const { userID, ...result } = await hobbies
                 .select("hobbies.*", "drafts.userID")
                 .join(DRAFTS, "hobbies.draftID", "=", `${DRAFTS}.id`)
-                .where({ draftID });
-            if (result.length > 0 && result[0].userID !== decoded.sub) {
+                .where("hobbies.id", hobbyID);
+
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
 
             return result;
+        },
+        getHobbies: async (_, { draftID }, { throwAuthError, decoded }) => {
+            const results = await hobbies
+                .select("hobbies.*", "drafts.userID")
+                .join(DRAFTS, "hobbies.draftID", "=", `${DRAFTS}.id`)
+                .where({ draftID });
+
+            if (results.length > 0 && results[0].userID !== decoded.sub) {
+                throwAuthError();
+            }
+
+            // dropping userID in returned objects
+            return results.map(({ userID, ...keepKeys }) => keepKeys);
         },
     },
     Mutation: {
@@ -33,6 +47,17 @@ module.exports = {
         },
         updateHobby: async () => {
             throw Error("Work in progress!");
+        },
+        deleteHobby: async (_, { hobbyID }, { decoded, throwAuthError }) => {
+            const [result] = await hobbies
+                .select("drafts.userID")
+                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
+                .where("education.id", hobbyID);
+
+            if (result.userID !== decoded.sub) {
+                throwAuthError();
+            }
+            return hobbies.where({ id: hobbyID }).del();
         },
     },
 };
