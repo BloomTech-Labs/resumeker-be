@@ -12,7 +12,7 @@ const hobby = require("./hobby");
 const languages = require("./languages");
 
 const mainResolver = [
-    user,
+    // user,
     draft,
     role,
     work,

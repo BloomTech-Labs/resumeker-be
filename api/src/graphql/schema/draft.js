@@ -21,7 +21,9 @@ const draft = gql`
     }
     type Draft {
         id: ID!
-        user: User!
+        user: ID!
+        email:
+        name: 
         role: Role
         project: [Project]
         work: [WorkHistory]

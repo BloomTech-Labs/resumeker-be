@@ -1,19 +1,19 @@
-const { gql } = require("apollo-server");
+// const { gql } = require("apollo-server");
 
-const user = gql`
-    type Query {
-        getUser(id: ID!): User
-        getAllUsers: [User!]!
-    }
+// const user = gql`
+//     type Query {
+//         getUser(id: ID!): User
+//         getAllUsers: [User!]!
+//     }
 
-    type Mutation {
-        addUser: User!
-        updateUser(id: ID!): User!
-    }
+//     type Mutation {
+//         addUser: User!
+//         updateUser(id: ID!): User!
+//     }
 
-    type User {
-        id: ID!
-    }
-`;
+//     type User {
+//         id: ID!
+//     }
+// `;
 
-module.exports = user;
+// module.exports = user;

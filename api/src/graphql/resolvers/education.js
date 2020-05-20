@@ -4,15 +4,22 @@ const education = db("education");
 
 module.exports = {
     Query: {
-        getEducation: (__, ___, { decoded }) =>
-            education.where({ userID: decoded.sub }),
+        getEducationHistory: async (__, { draftID }, { decoded }) => {
+            const educations = await education
+                .join("drafts", "education.id", "=", "drafts.educationID")
+                .where({ draftID })
+                .select("education.*", "draft.userID");
+
+            console.log(educations);
+            console.log(decoded.sub);
+            // query the draft joined with the education, and check userID on there
+            return educations;
+        },
     },
     Mutation: {
-        addEducation: async (
-            __,
-            { schoolName, schoolType, startDate, endDate, certName },
-            { decoded }
-        ) => {
+        addEducationHistory: async (__, { input, draftID }, { decoded }) => {
+            // input the education history information
+            // update the draft in SQL
             const [inserted] = await education.insert(
                 {
                     schoolName,
@@ -34,7 +41,7 @@ module.exports = {
             );
             return inserted;
         },
-        updateEducation: async (
+        updateEducationHistory: async (
             __,
             {
                 schoolName,

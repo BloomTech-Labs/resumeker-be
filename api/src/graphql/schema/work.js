@@ -5,8 +5,8 @@ const work = gql`
         getWorkHistory: [WorkHistory]!
     }
     type Mutation {
-        addWorkHistory(id: ID!): WorkHistory
-        updateWorkHistory(id: ID!): WorkHistory
+        addWorkHistory(draftID: ID!, input: WorkHistoryInput): WorkHistory
+        updateWorkHistory(id: ID!, input: WorkHistoryInput): WorkHistory
     }
 
     type WorkHistory {
@@ -17,6 +17,7 @@ const work = gql`
         description: String
         company: String
     }
+
     input WorkHistoryInput {
         startDate: String
         endDate: String

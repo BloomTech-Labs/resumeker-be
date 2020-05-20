@@ -14,7 +14,7 @@ const languages = require("./languages");
 
 const schemaArray = [
     root,
-    user,
+    // user,
     draft,
     role,
     work,
