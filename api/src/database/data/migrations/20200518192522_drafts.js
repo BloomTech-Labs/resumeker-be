@@ -2,7 +2,6 @@ exports.up = (knex) =>
     knex.schema.createTable("drafts", (table) => {
         table.increments("id").primary();
         table.varchar("userID").notNullable();
-        table.foreign("userID").references("users.id");
         table.integer("roleID");
         table.foreign("roleID").references("roles.id");
         table.integer("projectID");
@@ -13,6 +12,8 @@ exports.up = (knex) =>
         table.foreign("workID").references("workHistory.id");
         table.integer("educationID");
         table.foreign("educationID").references("education.id");
+        table.varchar("name").notNullable();
+        table.varchar("email").notNullable();
     });
 
 exports.down = (knex) => knex.schema.dropTableIfExists("drafts");
