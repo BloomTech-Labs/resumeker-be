@@ -2,29 +2,31 @@ const { gql } = require("apollo-server");
 
 const skills = gql`
     type Query {
-        getSkills: [Skill!]!
+        getSkill(skillID: ID!): [Skill]
+        getSkillsByDraft(draftID: ID!): [Skill]!
     }
     type Mutation {
-        addSkill(id: ID!): Skill!
-        updateSkill(id: ID!): Skill!
+        addSkill(input: SkillInput): Skill!
+        updateSkill(skillID: ID!, input: SkillInput): Skill!
+        deleteSkill(skillID: ID!): Int!
     }
 
     type Skill {
         id: ID!
         draftID: ID!
-        text: String
+        name: String
         skillType: SkillType
     }
 
     input SkillInput {
         draftID: ID
-        text: String
+        name: String
         skillType: SkillType
     }
 
     enum SkillType {
-        TECHNICAL
-        QUALITATIVE
+        Technical
+        Qualitative
     }
 `;
 
