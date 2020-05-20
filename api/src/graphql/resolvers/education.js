@@ -5,6 +5,18 @@ const DRAFTS = "drafts";
 module.exports = {
     Query: {
         getEducationHistory: async (
+            _,
+            { educationID },
+            { decoded, throwAuthError }
+        ) => {
+            const edResult = await education.where({ id: educationID });
+            const { userID } = await db(DRAFTS).where({ id: edResult.draftID });
+            if (userID !== decoded.sub) {
+                throwAuthError();
+            }
+            return edResult;
+        },
+        getEducationByDraft: async (
             __,
             { draftID },
             { decoded, throwAuthError }
@@ -37,5 +49,20 @@ module.exports = {
             return result;
         },
         updateEducationHistory: () => {},
+        deleteEducation: async (
+            _,
+            { educationID },
+            { decoded, throwAuthError }
+        ) => {
+            const [result] = await education
+                .select("drafts.userID")
+                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
+                .where("education.id", educationID);
+
+            if (result.userID !== decoded.sub) {
+                throwAuthError();
+            }
+            return education.where({ id: educationID }).del();
+        },
     },
 };
