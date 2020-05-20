@@ -4,6 +4,10 @@ const drafts = db("drafts");
 
 module.exports = {
     Query: {
+        helloWorld: async (parent, _, { decoded }) => {
+            console.log(decoded);
+            return "Hello World";
+        },
         getDraft: async (_, { draftID }, { decoded }) => {
             const [draft] = await drafts.where({ id: draftID });
             if (decoded.sub === draft.user_id) {
@@ -15,8 +19,18 @@ module.exports = {
             drafts.where({ user_id: decoded.sub }),
     },
     Mutation: {
-        addDraft: () => {},
-        updateDraft: () => {},
-        deleteDraft: () => {},
+        addDraft: async (_, { email, name }, { decoded }) => {
+            const [result] = await drafts.insert(
+                { email, name, userID: decoded.sub },
+                ["id"]
+            );
+            return result.id;
+        },
+        updateDraft: () => {
+            return { error: "Work in progress" };
+        },
+        deleteDraft: () => {
+            return { error: "work in progress" };
+        },
     },
 };
