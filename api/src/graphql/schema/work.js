@@ -8,6 +8,7 @@ const work = gql`
     type Mutation {
         addWorkHistory(input: WorkHistoryInput): WorkHistory
         updateWorkHistory(id: ID!, input: WorkHistoryInput): WorkHistory
+        deleteWorkHistory(workID: ID!): Int!
     }
 
     type WorkHistory {
