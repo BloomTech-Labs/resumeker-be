@@ -7,7 +7,7 @@ const draft = gql`
     }
 
     type Mutation {
-        addDraft: Int!
+        addDraft(email: String, name: String): Int!
         updateDraft(
             draftID: ID!
             role: RoleInput
@@ -15,7 +15,7 @@ const draft = gql`
             work: [WorkHistoryInput]
             education: [EducationHistoryInput]
             skill: [SkillInput]
-            hobbies: [HobbyInput]
+            hobbies: [String]
         ): Draft!
         deleteDraft: Boolean
     }

@@ -1,4 +1,5 @@
 const db = require("../../database/config/dbConfig");
+const HOBBIES = db("hobbies");
 
 module.exports = {
     Query: {
@@ -7,8 +8,15 @@ module.exports = {
         },
     },
     Mutation: {
-        addHobby: async () => {
-            // function
+        addHobby: async (
+            _,
+            { input, draftID: id },
+            { decoded, throwAuthError }
+        ) => {
+            const draft = await db(HOBBIES).where({ id });
+            if (!draft.userID === decoded.sub) {
+                throwAuthError();
+            }
         },
         updateHobby: async () => {
             // function

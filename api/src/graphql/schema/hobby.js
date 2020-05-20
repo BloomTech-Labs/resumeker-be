@@ -6,18 +6,13 @@ const hobby = gql`
     }
 
     type Mutation {
-        addHobby: Hobby
+        addHobby(draftID: ID!, name: String): Hobby
         updateHobby: Hobby
     }
 
     type Hobby {
         id: ID!
-        userID: ID!
-        name: String
-    }
-
-    input HobbyInput {
-        userID: ID!
+        draftID: ID!
         name: String
     }
 `;
