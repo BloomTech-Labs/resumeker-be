@@ -1,9 +1,4 @@
-exports.up = (knex) =>
-    knex.schema.table("users", (table) => {
-        table.dropColumn("firstName");
-        table.dropColumn("lastName");
-        table.dropColumn("email");
-    });
+exports.up = (knex) => knex.schema.dropTableIfExists("users");
 
 exports.down = (knex) =>
     knex.schema.table("users", (table) => {
