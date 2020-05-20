@@ -2,6 +2,7 @@ const db = require("../../database/config/dbConfig");
 
 const education = db("education");
 const DRAFTS = "drafts";
+
 module.exports = {
     Query: {
         getEducationHistory: async (
@@ -9,28 +10,35 @@ module.exports = {
             { educationID },
             { decoded, throwAuthError }
         ) => {
-            const edResult = await education.where({ id: educationID });
-            const { userID } = await db(DRAFTS).where({ id: edResult.draftID });
+            const { userID, ...result } = await education
+                .select("education.*", "drafts.userID")
+                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
+                .where({
+                    id: educationID,
+                });
+
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return edResult;
+            return result;
         },
         getEducationByDraft: async (
             __,
             { draftID },
             { decoded, throwAuthError }
         ) => {
-            const result = await education
+            const results = await education
                 .select("education.*", "drafts.userID")
                 .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
                 .where({ draftID });
 
             // if array isn't empty, and the id doesn't match
-            if (result.length > 0 && result[0].userID !== decoded.sub) {
+            if (results.length > 0 && results[0].userID !== decoded.sub) {
                 throwAuthError();
             }
-            return education;
+
+            // dropping userID in returned objects
+            return results.map(({ userID, ...keepKeys }) => keepKeys);
         },
     },
     Mutation: {

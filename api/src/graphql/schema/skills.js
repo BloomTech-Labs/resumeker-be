@@ -11,6 +11,7 @@ const skills = gql`
 
     type Skill {
         id: ID!
+        draftID: ID!
         text: String
         skillType: SkillType
     }

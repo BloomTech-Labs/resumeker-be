@@ -5,7 +5,7 @@ const roles = db("roles");
 const skills = db("skills");
 const education = db("education");
 const hobbiesTable = db("hobbies");
-const workTable = db("work");
+const workTable = db("workHistory");
 const projects = db("projects");
 
 module.exports = {
@@ -17,32 +17,32 @@ module.exports = {
             const [result] = await roles.where({ draftID: id });
             return result;
         },
-        project: async ({ id, user }, _, { decoded, throwAuthError }) => {
-            if (user !== decoded.sub) {
+        project: async ({ id, userID }, _, { decoded, throwAuthError }) => {
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
             return projects.where({ draftID: id });
         },
-        work: ({ id, user }, _, { decoded, throwAuthError }) => {
-            if (user !== decoded.sub) {
+        work: ({ id, userID }, _, { decoded, throwAuthError }) => {
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
             return workTable.where({ draftID: id });
         },
-        education: ({ id, user }, _, { decoded, throwAuthError }) => {
-            if (user !== decoded.sub) {
+        education: ({ id, userID }, _, { decoded, throwAuthError }) => {
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
             return education.where({ draftID: id });
         },
-        skill: ({ id, user }, _, { decoded, throwAuthError }) => {
-            if (user !== decoded.sub) {
+        skill: ({ id, userID }, _, { decoded, throwAuthError }) => {
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
             return skills.where({ draftID: id });
         },
-        hobbies: ({ id, user }, _, { decoded, throwAuthError }) => {
-            if (user !== decoded.sub) {
+        hobbies: ({ id, userID }, _, { decoded, throwAuthError }) => {
+            if (userID !== decoded.sub) {
                 throwAuthError();
             }
             return hobbiesTable.where({ draftID: id });
@@ -64,11 +64,16 @@ module.exports = {
             drafts.where({ user_id: decoded.sub }),
     },
     Mutation: {
-        addDraft: async (_, { email, name }, { decoded }) => {
+        addDraft: async (_, { input }, { decoded }) => {
+            const { email, name } = input;
             const [result] = await drafts.insert(
                 { email, name, userID: decoded.sub },
                 ["id"]
             );
+
+            // WIP feature multi table transaction inserts due to complexity
+            // https://stackoverflow.com/questions/40580674/get-knex-js-transactions-working-with-es7-async-await
+
             return result.id;
         },
         updateDraft: () => {

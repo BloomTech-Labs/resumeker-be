@@ -2,8 +2,8 @@ const db = require("../../database/config/dbConfig");
 
 module.exports = {
     Query: {
-        getWorkHistory: async (parent, { userID }) => {
-            return db("workHistory").where({ userID });
+        getWorkHistory: async (parent, { draftID }) => {
+            return db("workHistory").where({ draftID });
         },
     },
     Mutation: {

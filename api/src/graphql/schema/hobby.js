@@ -3,7 +3,7 @@ const { gql } = require("apollo-server");
 const hobby = gql`
     type Query {
         getHobby(hobbyID: ID!): Hobby
-        getHobbies(draftID: ID!): [Hobby]!
+        getHobbiesByDraft(draftID: ID!): [Hobby]!
     }
 
     type Mutation {

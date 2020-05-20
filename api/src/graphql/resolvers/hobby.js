@@ -17,7 +17,11 @@ module.exports = {
 
             return result;
         },
-        getHobbies: async (_, { draftID }, { throwAuthError, decoded }) => {
+        getHobbiesByDraft: async (
+            _,
+            { draftID },
+            { throwAuthError, decoded }
+        ) => {
             const results = await hobbies
                 .select("hobbies.*", "drafts.userID")
                 .join(DRAFTS, "hobbies.draftID", "=", `${DRAFTS}.id`)
