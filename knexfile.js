@@ -1,5 +1,5 @@
 // Requires env due to pre-processing logic prior to export
-require("dotenv").config({ path: "../../.env" });
+require("dotenv").config({ path: "./env" });
 
 let connectionConfig = {};
 
