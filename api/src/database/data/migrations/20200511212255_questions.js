@@ -7,20 +7,20 @@ exports.up = async function migrateUp(knex) {
 
     await knex.schema.createTable("roles_questions", (table) => {
         table
-            .integer("roleId")
+            .integer("roleID")
             .notNullable()
             .references("id")
             .inTable("roles")
             .onDelete("CASCADE")
             .onUpdate("CASCADE");
         table
-            .integer("questionId")
+            .integer("questionID")
             .notNullable()
             .references("id")
             .inTable("questions")
             .onDelete("CASCADE")
             .onUpdate("CASCADE");
-        table.primary(["roleId", "questionId"]);
+        table.primary(["roleID", "questionID"]);
     });
 };
 

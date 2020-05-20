@@ -3,10 +3,10 @@ exports.up = function migrateUp(knex) {
         table.increments("id").notNullable();
         table
             .enu("schoolType", [
-                "HIGHSCHOOL_OR_EQUIVALENT",
-                "UNDERGRAD",
-                "BOOTCAMP_OR_EQUIVALENT",
-                "POST_SECONDARY",
+                "UNDERGRADUATE",
+                "CERTIFICATION",
+                "GRADUATE",
+                "COURSE",
             ])
             .notNullable();
         table.text("schoolName").notNullable();
@@ -14,13 +14,6 @@ exports.up = function migrateUp(knex) {
         table.date("endDate");
         table.text("certName");
         table.text("courses");
-        table
-            .text("userId")
-            .notNullable()
-            .references("id")
-            .inTable("users")
-            .onUpdate("CASCADE")
-            .onDelete("CASCADE");
     });
 };
 

@@ -3,13 +3,6 @@ exports.up = function migrateUp(knex) {
         table.increments("id").notNullable();
         table.enu("skillType", ["Technical", "Qualitative"]).notNullable();
         table.text("name").notNullable();
-        table
-            .text("userId")
-            .notNullable()
-            .references("id")
-            .inTable("users")
-            .onUpdate("CASCADE")
-            .onDelete("CASCADE");
     });
 };
 

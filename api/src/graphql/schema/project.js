@@ -2,22 +2,30 @@ const { gql } = require("apollo-server");
 
 const project = gql`
     type Query {
-        getProject(userId: ID!): Project!
-        getProjects(userId: ID!): [Project!]!
+        getProject(projectID: ID!): Project!
+        getProjectsByDraft(draftID: ID!): [Project]!
     }
-
     type Mutation {
-        createProject: Project
-        updateProject: Project
+        addProject(input: ProjectInput!): Project
+        updateProject(projectID: ID!, input: ProjectInput!): Project
+        deleteProject(projectID: ID!): Int!
     }
-
     type Project {
         id: ID!
-        userId: ID!
+        draftID: ID!
         title: String
-        role: Role
         projectUrl: String
         description: String
+        startDate: String
+        endDate: String
+    }
+    input ProjectInput {
+        draftID: ID
+        title: String
+        projectUrl: String
+        description: String
+        startDate: String
+        endDate: String
     }
 `;
 

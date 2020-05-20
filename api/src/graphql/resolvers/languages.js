@@ -1,16 +1,16 @@
 const db = require("../../database/config/dbConfig");
 
-const tableName = "skills";
+const tableName = "languages";
 const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        getSkill: async (_, { skillID }, { decoded, throwAuthError }) => {
+        getLanguage: async (_, { languageID }, { decoded, throwAuthError }) => {
             const { userID, ...result } = await table
                 .select(`${tableName}.*`, `${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where(`${tableName}.id`, skillID)
+                .where(`${tableName}.id`, languageID)
                 .first();
 
             if (userID !== decoded.sub) {
@@ -19,7 +19,7 @@ module.exports = {
 
             return result;
         },
-        getSkillsByDraft: async (
+        getLanguagesByDraft: async (
             _,
             { draftID },
             { decoded, throwAuthError }
@@ -28,8 +28,6 @@ module.exports = {
                 .select(`${tableName}.*`, `${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where({ draftID });
-
-            console.log(results);
 
             if (results.length > 0 && results[0].userID !== decoded.sub) {
                 throwAuthError();
@@ -40,7 +38,7 @@ module.exports = {
         },
     },
     Mutation: {
-        addSkill: async (_, { input }, { decoded, throwAuthError }) => {
+        addLanguage: async (_, { input }, { decoded, throwAuthError }) => {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
 
@@ -51,20 +49,23 @@ module.exports = {
             const [result] = await table.insert(input, ["*"]);
             return result;
         },
-        updateSkill: () => {
+        updateLanguage: async () => {
             throw new Error("Work in progress!");
         },
-        deleteSkill: async (_, { skillID }, { decoded, throwAuthError }) => {
+        deleteLanguage: async (
+            _,
+            { languageID },
+            { decoded, throwAuthError }
+        ) => {
             const [result] = await table
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where(`${tableName}.id`, skillID);
+                .where(`${tableName}.id`, languageID);
 
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-
-            return table.where({ id: skillID }).del();
+            return table.where({ id: languageID }).del();
         },
     },
 };
