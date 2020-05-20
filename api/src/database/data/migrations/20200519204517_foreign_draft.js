@@ -55,6 +55,13 @@ exports.up = async (knex) => {
             .onDelete("CASCADE")
             .onUpdate("CASCADE");
     });
+    await knex.schema.alterTable("drafts", (table) => {
+        table.dropColumn("roleID");
+        table.dropColumn("projectID");
+        table.dropColumn("skillID");
+        table.dropColumn("workID");
+        table.dropColumn("educationID");
+    });
 };
 
 exports.down = async (knex) => {
@@ -78,5 +85,18 @@ exports.down = async (knex) => {
     });
     await knex.schema.alterTable("languages", (table) => {
         table.dropColumn("draftID");
+    });
+
+    await knex.schema.alterTable("drafts", (table) => {
+        table.integer("roleID");
+        table.foreign("roleID").references("roles.id");
+        table.integer("projectID");
+        table.foreign("projectID").references("projects.id");
+        table.integer("skillID");
+        table.foreign("skillID").references("skills.id");
+        table.integer("workID");
+        table.foreign("workID").references("workHistory.id");
+        table.integer("educationID");
+        table.foreign("educationID").references("education.id");
     });
 };
