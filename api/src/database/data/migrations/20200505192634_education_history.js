@@ -14,13 +14,6 @@ exports.up = function migrateUp(knex) {
         table.date("endDate");
         table.text("certName");
         table.text("courses");
-        table
-            .text("userID")
-            .notNullable()
-            .references("id")
-            .inTable("users")
-            .onUpdate("CASCADE")
-            .onDelete("CASCADE");
     });
 };
 
