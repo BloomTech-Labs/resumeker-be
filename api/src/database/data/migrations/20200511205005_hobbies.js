@@ -2,13 +2,6 @@ exports.up = function migrateUp(knex) {
     return knex.schema.createTable("hobbies", (table) => {
         table.increments("id").notNullable();
         table.text("name").notNullable();
-        table
-            .text("userID")
-            .notNullable()
-            .references("id")
-            .inTable("users")
-            .onUpdate("CASCADE")
-            .onDelete("CASCADE");
     });
 };
 

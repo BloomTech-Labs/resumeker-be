@@ -5,13 +5,6 @@ exports.up = function migrateUp(knex) {
         table.text("endDate").notNullable();
         table.text("title").notNullable();
         table.text("description").notNullable();
-        table
-            .text("userID")
-            .notNullable()
-            .references("id")
-            .inTable("users")
-            .onUpdate("CASCADE")
-            .onDelete("CASCADE");
     });
 };
 
