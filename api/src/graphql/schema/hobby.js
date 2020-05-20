@@ -6,7 +6,7 @@ const hobby = gql`
     }
 
     type Mutation {
-        addHobby(): Hobby
+        addHobby: Hobby
         updateHobby: Hobby
     }
 
