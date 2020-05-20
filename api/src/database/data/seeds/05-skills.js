@@ -6,7 +6,7 @@ exports.seed = function skillSeed(knex) {
             // Inserts seed entries
             return knex("skills").insert([
                 {
-                    userID: "google-oauth2|106346646323547324114",
+                    draftID: 1000,
                     skillType: "Technical",
                     name: "L33t haxing skillz",
                 },

@@ -6,7 +6,7 @@ exports.seed = function projSeed(knex) {
             // Inserts seed entries
             return knex("projects").insert([
                 {
-                    userID: "google-oauth2|106346646323547324114",
+                    draftID: 1000,
                     title: "Resumeker",
                     startDate: "2020-02-30",
                     endDate: "2020-06-20",

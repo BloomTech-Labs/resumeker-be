@@ -4,8 +4,8 @@ exports.seed = function langSeed(knex) {
         .then(function langTable() {
             return knex("languages").insert([
                 {
-                    id: 1,
-                    language: "English",
+                    draftID: 3000,
+                    language: "French",
                 },
             ]);
         });
