@@ -16,6 +16,7 @@ const skills = gql`
     }
 
     input SkillInput {
+        draftID: ID
         text: String
         skillType: SkillType
     }

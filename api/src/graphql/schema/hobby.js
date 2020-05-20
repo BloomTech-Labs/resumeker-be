@@ -20,7 +20,7 @@ const hobby = gql`
 
     input HobbyInput {
         draftID: ID!
-        name: String!
+        name: String
     }
 `;
 

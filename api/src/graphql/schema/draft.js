@@ -28,8 +28,8 @@ const draft = gql`
     input DraftInput {
         email: String!
         name: String!
-        role: RoleInput
-        project: ProjectInput
+        role: [String]
+        project: [ProjectInput]
         work: [WorkHistoryInput]
         education: [EducationHistoryInput]
         skill: [SkillInput]

@@ -6,16 +6,16 @@ const role = gql`
         getRole(userID: ID!): Role!
     }
     type Mutation {
-        addRole(id: ID!): Role!
-        updateRole(id: ID!): Role!
+        addRole(input: RoleInput!): Role!
+        updateRole(roleID: ID!, input: RoleInput): Role!
     }
     type Role {
         id: ID!
-        userID: ID!
+        draftID: ID
         name: String
     }
     input RoleInput {
-        userID: ID!
+        draftID: ID
         name: String
     }
 `;

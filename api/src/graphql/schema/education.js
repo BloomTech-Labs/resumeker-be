@@ -27,7 +27,7 @@ const education = gql`
     }
 
     input EducationHistoryInput {
-        draftID: ID!
+        draftID: ID
         schoolType: SchoolType
         schoolName: String
         startDate: String

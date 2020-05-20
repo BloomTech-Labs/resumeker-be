@@ -6,14 +6,19 @@ const languages = gql`
     }
 
     type Mutation {
-        addLanguage(draftID: ID!, language: String): Language
-        updateLanguage(draftID: ID!, language: String): Language
+        addLanguage(input: LanguageInput): Language
+        updateLanguage(languageID: ID!, input: LanguageInput): Language
     }
 
     type Language {
         id: ID!
         draftID: ID!
         language: String!
+    }
+
+    input LanguageInput {
+        draftID: ID
+        language: String
     }
 `;
 
