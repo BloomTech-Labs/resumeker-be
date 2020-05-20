@@ -36,16 +36,17 @@ module.exports = {
     Mutation: {
         addEducationHistory: async (
             _,
-            { input, draftID: id },
+            { input },
             { decoded, throwAuthError }
         ) => {
-            // verify that draft exists and checks authorizations
-            const draft = await db(DRAFTS).where({ id });
+            const { draftID } = input;
+            const draft = await db(DRAFTS).where({ id: draftID });
+
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
-            const educationInput = { ...input, draftID: id };
-            const [result] = await education.insert(educationInput, ["*"]);
+
+            const [result] = await education.insert(input, ["*"]);
             return result;
         },
         updateEducationHistory: () => {},
@@ -62,6 +63,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
+
             return education.where({ id: educationID }).del();
         },
     },
