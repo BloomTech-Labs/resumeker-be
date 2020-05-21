@@ -2,24 +2,28 @@ require("dotenv").config();
 const { ApolloServer, AuthenticationError } = require("apollo-server");
 const jwt = require("jsonwebtoken");
 const jwksClient = require("jwks-rsa");
+const { promisify } = require("util");
 
 // GraphQL Schema
 const typeDefs = require("./api/src/graphql/schema/index");
-const resolvers = require("./api/src/graphql/resolvers/index");
+const resolvers = require("./api/src/graphql/resolvers/index.js");
 
 const client = jwksClient({
     jwksUri: `${process.env.AUTH0_DOMAIN}.well-known/jwks.json`,
 });
 
-const getKey = (header, cb) => {
-    client.getSigningKey(header.kid, (err, key) => {
-        if (err) {
-            cb(err);
-        } else {
-            const signingKey = key.publicKey || key.rsaPublicKey;
-            cb(null, signingKey);
-        }
-    });
+const incomingKey = promisify(client.getSigningKey);
+
+const getUtilKey = async (header) => {
+    const result = await incomingKey(header.kid);
+
+    return result.publicKey;
+};
+
+const throwAuthError = () => {
+    throw new AuthenticationError(
+        "You must be authenticated or authorized to perform this operation."
+    );
 };
 
 const server = new ApolloServer({
@@ -28,31 +32,25 @@ const server = new ApolloServer({
     playground: true,
     context: async ({ req }) => {
         if (!req.headers.authorization) {
-            throw new AuthenticationError(
-                "You must include a token in the authorzation."
-            );
+            throwError();
         }
         const token = req.headers.authorization || "";
         const bearerToken = token.match(/^Bearer\s+(.*)/)[1];
 
-        jwt.verify(
-            bearerToken,
-            getKey,
-            {
-                audience: process.env.AUTHO0_AUDIENCE,
-                issuer: process.env.AUTH0_DOMAIN,
-                algorithms: ["RS256"],
-            },
-            (error, decoded) => {
-                if (error) {
-                    throw new AuthenticationError(error);
-                }
-                return { user: decoded.sub };
-            }
-        );
+        const decodedToken = jwt.decode(bearerToken, { complete: true });
+        const signingKey = await getUtilKey(decodedToken.header);
+
+        const decoded = jwt.verify(bearerToken, signingKey, {
+            audience: process.env.AUTHO0_AUDIENCE,
+            issuer: process.env.AUTH0_DOMAIN,
+            algorithms: ["RS256"],
+        });
+
+        return { decoded, throwAuthError };
     },
 });
 
 server.listen({ port: process.env.PORT }).then(({ url }) => {
+    /* eslint-disable no-console */
     console.log(`\n 🚀 Server listening on ${url} 🚀 \n`);
 });

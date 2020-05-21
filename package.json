@@ -8,7 +8,7 @@
     "main": "index.js",
     "scripts": {
         "server": "nodemon index.js",
-        "start": "node src/index.js",
+        "start": "node index.js",
         "db-remake": "psql -U postgres remakeDatabase.sql",
         "knex-refresh": "knex migrate:rollback && knex migrate:latest && knex seed:run",
         "total-reset": "yarn db-remake && yarn knex-refresh",

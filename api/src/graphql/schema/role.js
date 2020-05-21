@@ -3,15 +3,19 @@ const { gql } = require("apollo-server");
 const role = gql`
     # Role is the Job the user is applying for
     type Query {
-        getRole(userId: ID!): Role!
+        getRole(userID: ID!): Role!
     }
     type Mutation {
-        createRole(id: ID!): Role!
-        updateRole(id: ID!): Role!
+        addRole(input: RoleInput!): Role!
+        updateRole(roleID: ID!, input: RoleInput): Role!
     }
     type Role {
         id: ID!
-        userId: ID!
+        draftID: ID
+        name: String
+    }
+    input RoleInput {
+        draftID: ID
         name: String
     }
 `;
