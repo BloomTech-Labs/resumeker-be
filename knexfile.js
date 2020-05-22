@@ -1,6 +1,7 @@
 // Requires env due to pre-processing logic prior to export
 require("dotenv").config();
 
+
 let connectionConfig = {};
 
 if (process.env.DEV_DB_URL) {
