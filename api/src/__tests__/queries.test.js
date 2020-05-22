@@ -25,49 +25,49 @@ const helloWorldQuery = {
     },
 };
 
-const testGetEducationQuery = {
-    id: "test get education",
-    variables: { educationID: "1" },
-    context: {},
-    query: `
-    query getEducationHistory {
-        getEducationHistory(educationID: "1") { 
-            schoolName
-        }
-    }
-    `,
-    expected: {
-        data: {
-            getEducationHistory: [
-                {
-                    schoolName: "UCLA",
-                },
-            ],
-        },
-    },
-};
+// const testGetEducationQuery = {
+//     id: "test get education",
+//     variables: { educationID: "1" },
+//     context: {},
+//     query: `
+//     query getEducationHistory {
+//         getEducationHistory(educationID: "1") {
+//             schoolName
+//         }
+//     }
+//     `,
+//     expected: {
+//         data: {
+//             getEducationHistory: [
+//                 {
+//                     schoolName: "UCLA",
+//                 },
+//             ],
+//         },
+//     },
+// };
 
-const getEducationHistoryByDraft = {
-    id: "test get education by draft",
-    variables: { draftID: "1" },
-    context: {},
-    query: `
-    query getEducationHistory {
-        getEducationHistory(draftID: "1000") { 
-            schoolName
-        }
-    }
-    `,
-    expected: {
-        data: {
-            getEducationHistory: [
-                {
-                    schoolName: "UCLA",
-                },
-            ],
-        },
-    },
-};
+// const getEducationHistoryByDraft = {
+//     id: "test get education by draft",
+//     variables: { draftID: "1" },
+//     context: {},
+//     query: `
+//     query getEducationHistory {
+//         getEducationHistory(draftID: "1000") {
+//             schoolName
+//         }
+//     }
+//     `,
+//     expected: {
+//         data: {
+//             getEducationHistory: [
+//                 {
+//                     schoolName: "UCLA",
+//                 },
+//             ],
+//         },
+//     },
+// };
 
 describe("getQueries", () => {
     const mockSchema = makeExecutableSchema({
