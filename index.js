@@ -32,7 +32,7 @@ const server = new ApolloServer({
     playground: true,
     context: async ({ req }) => {
         if (!req.headers.authorization) {
-            throwError();
+            throwAuthError();
         }
         const token = req.headers.authorization || "";
         const bearerToken = token.match(/^Bearer\s+(.*)/)[1];
