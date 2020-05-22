@@ -1,54 +1,88 @@
+const { graphql } = require("graphql");
+
 const {
     makeExecutableSchema,
     addMockFunctionsToSchema,
-    addMocksToSchema,
+
     mockServer,
 } = require("graphql-tools");
-const { graphql } = require("graphql");
+
 const typeDefs = require("../graphql/schema/index");
 
-// Make a GraphQL schema with no resolvers
-const schema = makeExecutableSchema({ typeDefs });
-
-// Add mocks, modifies schema in place
-addMocksToSchema({ schema });
-
-const getEducationQuery = `
-    query getEducationHistory {
-        getEducationHistory(userID: "1") { 
-            schoolName
-        }
-    }
-`;
-
-const testEducationQuery = {
-    id: "test education",
-    variables: { userId: "1" },
+const helloWorldQuery = {
+    id: "hello world",
+    variables: {},
     context: {},
-    query: getEducationQuery,
+    query: `
+    query helloWorldQuery {
+        helloWorld
+    }
+    `,
     expected: {
         data: {
-            getEducationHistory: [
-                {
-                    schoolName: "A&M",
-                },
-            ],
+            helloWorld: "Hello World",
         },
     },
 };
+
+// const testGetEducationQuery = {
+//     id: "test get education",
+//     variables: { educationID: "1" },
+//     context: {},
+//     query: `
+//     query getEducationHistory {
+//         getEducationHistory(educationID: "1") {
+//             schoolName
+//         }
+//     }
+//     `,
+//     expected: {
+//         data: {
+//             getEducationHistory: [
+//                 {
+//                     schoolName: "UCLA",
+//                 },
+//             ],
+//         },
+//     },
+// };
+
+// const getEducationHistoryByDraft = {
+//     id: "test get education by draft",
+//     variables: { draftID: "1" },
+//     context: {},
+//     query: `
+//     query getEducationHistory {
+//         getEducationHistory(draftID: "1000") {
+//             schoolName
+//         }
+//     }
+//     `,
+//     expected: {
+//         data: {
+//             getEducationHistory: [
+//                 {
+//                     schoolName: "UCLA",
+//                 },
+//             ],
+//         },
+//     },
+// };
 
 describe("getQueries", () => {
     const mockSchema = makeExecutableSchema({
         typeDefs,
     });
 
-    const cases = [testEducationQuery];
+    // const cases = [helloWorldQuery, testGetEducationQuery, getEducationHistoryByDraft];
 
     addMockFunctionsToSchema({
         schema: mockSchema,
         mocks: {
-            userId: () => "1",
-            String: () => "A&M",
+            id: () => "1",
+            userID: () => "1000",
+            Array: () => [],
+            String: () => "Hello World",
         },
     });
 
@@ -57,5 +91,13 @@ describe("getQueries", () => {
             const MockServer = mockServer(typeDefs);
             await MockServer.query(`{__schema{types{name}}}`);
         }).not.toThrow();
+    });
+
+    test("hello World Query valid", () => {
+        expect(async () => {
+            await graphql(mockSchema, helloWorldQuery).resolves.toEqual(
+                helloWorldQuery.expected
+            );
+        });
     });
 });
