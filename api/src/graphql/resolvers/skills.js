@@ -30,6 +30,7 @@ module.exports = {
             return table
                 .where({ draftID })
                 .then((results) =>
+                    /* eslint-disable no-unused-vars */
                     results.map(({ userID, ...keepKeys }) => keepKeys)
                 )
                 .catch((err) => {

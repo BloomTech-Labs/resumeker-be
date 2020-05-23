@@ -3,7 +3,7 @@ const { gql } = require("apollo-server");
 const draft = gql`
     type Query {
         getDraft(draftID: ID!): Draft!
-        getDrafts(userID: ID!): [Draft]!
+        getDrafts: [Draft]!
     }
 
     type Mutation {
