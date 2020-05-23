@@ -50,6 +50,7 @@ module.exports = {
     },
     Query: {
         helloWorld: async (parent, _, { decoded }) => {
+            /* eslint-disable no-console */
             console.log(decoded);
             return "Hello World";
         },
