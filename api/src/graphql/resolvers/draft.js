@@ -60,8 +60,13 @@ module.exports = {
             }
             throw Error("This draft does not belong to the user.");
         },
-        getDrafts: (_, __, { decoded }) =>
-            drafts.where({ user_id: decoded.sub }),
+        getDrafts: async (_, __, { decoded }) => {
+            const response = await drafts.where({ userID: decoded.sub });
+
+            console.log(response, "get Drafts response");
+
+            return drafts.where({ userID: decoded.sub });
+        },
     },
     Mutation: {
         addDraft: async (_, { input }, { decoded }) => {
