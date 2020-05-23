@@ -1,5 +1,6 @@
 // Requires env due to pre-processing logic prior to export
-require("dotenv").config({ path: "./.env" });
+require("dotenv").config();
+
 
 let connectionConfig = {};
 
@@ -36,6 +37,17 @@ module.exports = {
         connection: process.env.STAGING_DB_URL,
         // rejectUnauthorized needs to be changed to true in production
         rejectUnauthorized: true,
+        migrations: {
+            directory: "./api/src/database/data/migrations",
+        },
+        seeds: {
+            directory: "./api/src/database/data/seeds",
+        },
+    },
+    test: {
+        client: "pg",
+        connection: process.env.TESTING_DB_URL,
+        rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTH,
         migrations: {
             directory: "./api/src/database/data/migrations",
         },
