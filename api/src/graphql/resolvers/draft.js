@@ -50,6 +50,7 @@ module.exports = {
     },
     Query: {
         helloWorld: async (parent, _, { decoded }) => {
+            /* eslint-disable no-console */
             console.log(decoded);
             return "Hello World";
         },
@@ -61,7 +62,7 @@ module.exports = {
             throw Error("This draft does not belong to the user.");
         },
         getDrafts: (_, __, { decoded }) =>
-            drafts.where({ user_id: decoded.sub }),
+            drafts.where({ userID: decoded.sub }),
     },
     Mutation: {
         addDraft: async (_, { input }, { decoded }) => {

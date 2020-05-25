@@ -7,30 +7,36 @@ const DRAFTS = "drafts";
 module.exports = {
     Query: {
         getWorkHistory: async (_, { workID }, { decoded, throwAuthError }) => {
-            const { userID, ...result } = await table
-                .select(`${tableName}.*`, `${DRAFTS}.userID`)
-                .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where(`${tableName}.id`, workID)
-                .first();
+            const [result] = await table.where({ id: workID });
+            if (!result) throw new Error("No results matched the id.");
 
-            if (userID !== decoded.sub) {
+            const [draft] = await db(DRAFTS).where({ id: result.draftID });
+            if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
 
             return result;
         },
         getWorkByDraft: async (_, { draftID }, { decoded, throwAuthError }) => {
-            const results = await table
-                .select(`${tableName}.*`, `${DRAFTS}.userID`)
-                .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where({ draftID });
-
-            if (results.length > 0 && results[0].userID !== decoded.sub) {
+            // encountering SQL error where table is defined more than once on subsequent queries
+            const draft = await db(DRAFTS).where({ id: draftID });
+            if (draft.length > 0 && draft[0].userID !== decoded.sub) {
                 throwAuthError();
             }
-
-            // dropping userID in returned objects
-            return results.map(({ userID, ...keepKeys }) => keepKeys);
+            // dropping userID on the return
+            return table
+                .where({ draftID })
+                .then((results) =>
+                    /* eslint-disable no-unused-vars */
+                    results.map(({ userID, ...keepKeys }) => keepKeys)
+                )
+                .catch((err) => {
+                    /* eslint-disable no-console */
+                    console.log(err);
+                    throw new Error(
+                        "Something went wrong, check server console for info."
+                    );
+                });
         },
     },
     Mutation: {
