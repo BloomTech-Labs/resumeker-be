@@ -2,41 +2,35 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3620fc8899a7cc5e285c/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/resumeker-be/test_coverage)
 
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
-
-## 1️⃣ Getting started
+#### Backend delpoyed at [Heroku](https://resumeker-pt.herokuapp.com/) <br>
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
-- Clone this repo
-- **yarn install** to install all required dependencies
-- **yarn server** to start the local server
-- **yarn test** to start server using testing environment
+-   Clone this repo
+-   **yarn or npm install** to install all required dependencies
+-   **yarn or npm run server** to start the local server
+-   **yarn or npm test** to start server using testing environment
 
 ### Backend framework goes here
 
-🚫 Why did you choose this framework?
+The framework we chose is Apollo Server using GraphQL and Knex.
 
-- Point One
-- Point Two
-- Point Three
-- Point Four
+-   Point One
+-   Point Two
+-   Point Three
+-   Point Four
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+Visit the local server in the GraphQL playground and with a valid token you
+can access queries and mutations for our server.
 
-#### Organization Routes
+Optionally you can test these endpoints on Postman or Insomnia using the
+GraphQL selection. Every query and mutation are treated as POST requests.
+
+#### GraphQL Queries
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
@@ -44,7 +38,7 @@ To get the server running locally:
 | PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
 | DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
 
-#### User Routes
+#### GraphQL Mutations
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
@@ -59,7 +53,7 @@ To get the server running locally:
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### DRAFTS
 
 ---
 
@@ -120,18 +114,19 @@ To get the server running locally:
 
 `deleteUser(userId)` -> deletes everything dependent on the user
 
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-  
- _ STAGING_DB - optional development db for using functionality not available in SQLite
-_ NODE_ENV - set to "development" until ready for "production"
-_ JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;_(-_=+)') for i in range(50)])
-_ SENDGRID_API_KEY - this is generated in your Sendgrid account \* stripe_secret - this is generated in the Stripe dashboard
+_ STAGING_DB_URL - optional development db for using functionality not available in SQLite
+_ NODE\*ENV - set to "development" until ready for "production"
+
+-   JWKS\*URI - Auth0 Jwks client connection
+-   AUTH0\*USERINFO - Auth0 domain with /userinfo endpoint to retreive user
+-   AUTH0\*AUDIENCE
+-   AUTH0_DOMAIN
 
 ## Contributing
 
@@ -143,10 +138,10 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
 
-- Check first to see if your issue has already been reported.
-- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
-- Create a live example of the problem.
-- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
+-   Check first to see if your issue has already been reported.
+-   Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+-   Create a live example of the problem.
+-   Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
@@ -160,11 +155,11 @@ Remember that this project is licensed under the MIT license, and by submitting 
 
 #### Pull Request Guidelines
 
-- Ensure any install or build dependencies are removed before the end of the layer when doing a build.
-- Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
-- Ensure that your code conforms to our existing code conventions and test coverage.
-- Include the relevant issue number, if applicable.
-- You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
+-   Ensure any install or build dependencies are removed before the end of the layer when doing a build.
+-   Update the README.md with details of changes to the interface, including new plist variables, exposed ports, useful file locations and container parameters.
+-   Ensure that your code conforms to our existing code conventions and test coverage.
+-   Include the relevant issue number, if applicable.
+-   You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
 
 ### Attribution
 
@@ -172,5 +167,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/Lambda-School-Labs/resumeker-fe) for details on the fronend of our project.
