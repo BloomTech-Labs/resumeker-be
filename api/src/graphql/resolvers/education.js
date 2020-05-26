@@ -1,17 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "education";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        getEducationHistory: async (
-            _,
-            { educationID },
-            { decoded, throwAuthError }
-        ) => {
-            const [result] = await table.where({ id: educationID });
+        getEducationHistory: async (_, { id }, { decoded, throwAuthError }) => {
+            const result = await db(tableName).where({ id: id }).first();
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -32,11 +27,13 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
-                .where({ draftID })
+            return db(tableName)
+                .where({ draftID: draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
-                    results.map(({ userID, ...keepKeys }) => keepKeys)
+                    results.map(({ userID, ...keepKeys }) => {
+                        return keepKeys;
+                    })
                 )
                 .catch((err) => {
                     /* eslint-disable no-console */
@@ -60,16 +57,25 @@ module.exports = {
                 throwAuthError();
             }
 
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db("education").insert(input, ["*"]);
             return result;
         },
-        updateEducationHistory: () => {},
+        updateEducationHistory: async (
+            _,
+            { id, input },
+            { decoded, throwAuthError }
+        ) => {
+            const [result] = await db("education")
+                .where({ id })
+                .update(input, ["*"]);
+            return result;
+        },
         deleteEducation: async (
             _,
             { educationID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table
+            const [result] = await db("education")
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, educationID);
@@ -77,7 +83,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: educationID }).del();
+            return db("education").where({ id: educationID }).del();
         },
     },
 };

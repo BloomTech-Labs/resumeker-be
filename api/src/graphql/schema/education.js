@@ -2,17 +2,17 @@ const { gql } = require("apollo-server");
 
 const education = gql`
     type Query {
-        getEducationHistory(educationID: ID!): EducationHistory
+        getEducationHistory(id: ID!): EducationHistory
         getEducationByDraft(draftID: ID!): [EducationHistory]!
     }
 
     type Mutation {
         addEducationHistory(input: EducationHistoryInput): EducationHistory
         updateEducationHistory(
-            educationID: ID!
+            id: ID!
             input: EducationHistoryInput
         ): EducationHistory
-        deleteEducation(educationID: ID!): Int!
+        deleteEducation(id: ID!): Int!
     }
 
     type EducationHistory {
