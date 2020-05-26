@@ -60,7 +60,6 @@ module.exports = {
     },
     Mutation: {
         addDraft: async (_, { input }, { decoded }) => {
-            console.log("addDraft is here");
             const { email, name } = input;
             const [result] = await db("drafts").insert(
                 { email, name, userID: decoded.sub },
