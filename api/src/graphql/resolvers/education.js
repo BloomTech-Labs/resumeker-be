@@ -6,12 +6,21 @@ const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
+        // getEducationByDraft: async (
+        //     __,
+        //     { draftID },
+        // ) => {
+        //     const result = await table.where({draftID: draftID} );
+        //     return result
+        // }
+
+        
         getEducationHistory: async (
             _,
-            { educationID },
+            { id },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table.where({ id: educationID });
+            const result = await table.where({ id: id }).first();
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -33,10 +42,10 @@ module.exports = {
             }
             // dropping userID on the return
             return table
-                .where({ draftID })
+                .where({ draftID: draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
-                    results.map(({ userID, ...keepKeys }) => keepKeys)
+                    results.map(({ userID, ...keepKeys }) => {return keepKeys})
                 )
                 .catch((err) => {
                     /* eslint-disable no-console */
@@ -63,7 +72,20 @@ module.exports = {
             const [result] = await table.insert(input, ["*"]);
             return result;
         },
-        updateEducationHistory: () => {},
+        updateEducationHistory: async (
+            _,
+            { id, input },
+            { decoded, throwAuthError }
+        ) => {
+            console.log(input, "input")
+            const [result] = await table
+                .where({id: id})
+                .update(
+                    input, ["*"]
+                )
+                console.log(result)
+            return result
+        },
         deleteEducation: async (
             _,
             { educationID },
