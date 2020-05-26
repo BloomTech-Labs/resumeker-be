@@ -3,53 +3,28 @@ const { graphql } = require("graphql");
 const {
     makeExecutableSchema,
     addMockFunctionsToSchema,
-    mockServer,
 } = require("graphql-tools");
 
-const typeDefs = require("../graphql/schema/index");
+const typeDefs = require("../graphql/schema/education.js");
 const resolvers = require("../graphql/resolvers/education.js");
 
 const testGetEducationQuery = {
     id: "test get education",
-    variables: {},
+    variables: { id: 352 },
     context: {},
     query: `
-    query getEducationHistory {
-        getEducationHistory(educationID: 7) {
+    query getEducationHistory($id: ID!){
+        getEducationHistory(id: $id) {
             schoolName
         }
     }
     `,
     expected: {
         data: {
-            getEducationHistory: {
-                schoolName: "Hello World",
-            },
+            getEducationHistory: null,
         },
     },
 };
-
-// const getEducationHistoryByDraft = {
-//     id: "test get education by draft",
-//     variables: { draftID: 1000 },
-//     context: {},
-//     query: `
-//     query getEducationByDraft(draftID: ID!) {
-//         getEducationByDraft(draftID: $id) {
-//             schoolName
-//         }
-//     }
-//     `,
-//     expected: {
-//         data: {
-//             getEducationHistoryByDraft: [
-//                 {
-//                     schoolName: "UCLA",
-//                 },
-//             ],
-//         },
-//     },
-// };
 
 describe("graphQL Education Schema and Resolvers", () => {
     const mockSchema = makeExecutableSchema({
@@ -57,10 +32,7 @@ describe("graphQL Education Schema and Resolvers", () => {
         resolvers,
     });
 
-    const cases = [
-        testGetEducationQuery,
-        // getEducationHistoryByDraft,
-    ];
+    const cases = [testGetEducationQuery];
 
     addMockFunctionsToSchema({
         schema: mockSchema,
@@ -73,24 +45,11 @@ describe("graphQL Education Schema and Resolvers", () => {
         preserveResolvers: true,
     });
 
-    test("has valid typeDefs", async () => {
-        expect(async () => {
-            const MockServer = mockServer(mockSchema);
-            await MockServer.query(`{__schema{types{name}}}`);
-        }).not.toThrow();
-    });
-
-    test("Queries resolve to expected", () => {
-        expect(async () => {
-            await graphql(mockSchema, cases, null).resolves.toEqual(expected);
-        });
-    });
-
     cases.forEach((obj) => {
-        const { id, variables, ctx, query, expected } = obj;
+        const { id, variables, context, query, expected } = obj;
         test(`query: ${id}`, async () => {
             return await expect(
-                graphql(mockSchema, query, null, { ctx }, variables)
+                graphql(mockSchema, query, null, { context }, variables)
             ).resolves.toEqual(expected);
         });
     });
