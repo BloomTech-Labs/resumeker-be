@@ -48,7 +48,7 @@ module.exports = {
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
-            const [result] = await db("education").insert(input, ["*"]);
+            const [result] = await db(tableName).insert(input, ["*"]);
             return result;
         },
         updateHobby: async () => {
