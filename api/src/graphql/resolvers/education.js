@@ -1,26 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "education";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        // getEducationByDraft: async (
-        //     __,
-        //     { draftID },
-        // ) => {
-        //     const result = await table.where({draftID: draftID} );
-        //     return result
-        // }
-
-        
-        getEducationHistory: async (
-            _,
-            { id },
-            { decoded, throwAuthError }
-        ) => {
-            const result = await table.where({ id: id }).first();
+        getEducationHistory: async (_, { id }, { decoded, throwAuthError }) => {
+            const result = await db(tableName).where({ id: id }).first();
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -41,11 +27,13 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
+            return db(tableName)
                 .where({ draftID: draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
-                    results.map(({ userID, ...keepKeys }) => {return keepKeys})
+                    results.map(({ userID, ...keepKeys }) => {
+                        return keepKeys;
+                    })
                 )
                 .catch((err) => {
                     /* eslint-disable no-console */
@@ -69,7 +57,7 @@ module.exports = {
                 throwAuthError();
             }
 
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db("education").insert(input, ["*"]);
             return result;
         },
         updateEducationHistory: async (
@@ -77,21 +65,17 @@ module.exports = {
             { id, input },
             { decoded, throwAuthError }
         ) => {
-            console.log(input, "input")
-            const [result] = await table
-                .where({id: id})
-                .update(
-                    input, ["*"]
-                )
-                console.log(result)
-            return result
+            const [result] = await db("education")
+                .where({ id })
+                .update(input, ["*"]);
+            return result;
         },
         deleteEducation: async (
             _,
             { educationID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table
+            const [result] = await db("education")
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, educationID);
@@ -99,7 +83,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: educationID }).del();
+            return db("education").where({ id: educationID }).del();
         },
     },
 };

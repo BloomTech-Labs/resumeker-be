@@ -1,13 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "workHistory";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getWorkHistory: async (_, { workID }, { decoded, throwAuthError }) => {
-            const [result] = await table.where({ id: workID });
+            const [result] = await db(tableName).where({ id: workID });
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -24,7 +23,7 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
+            return db(tableName)
                 .where({ draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
@@ -48,7 +47,7 @@ module.exports = {
                 throwAuthError();
             }
 
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db(tableName).insert(input, ["*"]);
             return result;
         },
         updateWorkHistory: async () => {
@@ -61,7 +60,7 @@ module.exports = {
             { workID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table
+            const [result] = await db(tableName)
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, workID);
@@ -69,7 +68,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: workID }).del();
+            return db(tableName).where({ id: workID }).del();
         },
     },
 };

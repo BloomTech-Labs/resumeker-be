@@ -1,13 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "skills";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getSkill: async (_, { skillID }, { decoded, throwAuthError }) => {
-            const [result] = await table.where({ id: skillID });
+            const [result] = await db(tableName).where({ id: skillID });
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -27,7 +26,7 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
+            return db(tableName)
                 .where({ draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
@@ -51,14 +50,14 @@ module.exports = {
                 throwAuthError();
             }
 
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db(tableName).insert(input, ["*"]);
             return result;
         },
         updateSkill: () => {
             throw new Error("Work in progress!");
         },
         deleteSkill: async (_, { skillID }, { decoded, throwAuthError }) => {
-            const [result] = await table
+            const [result] = await db(tableName)
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, skillID);
@@ -67,7 +66,7 @@ module.exports = {
                 throwAuthError();
             }
 
-            return table.where({ id: skillID }).del();
+            return db(tableName).where({ id: skillID }).del();
         },
     },
 };
