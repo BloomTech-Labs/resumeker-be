@@ -1,8 +1,8 @@
 const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 const { createTestClient } = require("apollo-server-testing");
 
-const resolvers = require("../graphql/resolvers/index");
-const typeDefs = require("../graphql/schema/index");
+const resolvers = require("../graphql/resolvers/project");
+const typeDefs = require("../graphql/schema/project");
 
 require("dotenv").config();
 
@@ -70,6 +70,8 @@ it("adding new project and getting it", async () => {
         `,
         variables: {draftID: 1000}
     })
+
+    console.log("inside of project", res_query.data.getProjectsByDraft)
 
     const toInt = Number(res_mutation.data.addProject.id)
     expect(res_query.data.getProjectsByDraft).toHaveLength(toInt)
