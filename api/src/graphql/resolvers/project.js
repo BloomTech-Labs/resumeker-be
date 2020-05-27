@@ -1,19 +1,16 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "projects";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getProject: async (_, { projectID }, { decoded, throwAuthError }) => {
-            const { userID, ...result } = await table
-                .select(`${tableName}.*`, `${DRAFTS}.userID`)
-                .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where(`${tableName}.id`, projectID)
-                .first();
+            const [result] = await db(tableName).where({ id: projectID });
+            if (!result) throw new Error("No results matched the id.");
 
-            if (userID !== decoded.sub) {
+            const [draft] = await db(DRAFTS).where({ id: result.draftID });
+            if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
 
@@ -24,29 +21,35 @@ module.exports = {
             { draftID },
             { decoded, throwAuthError }
         ) => {
-            const results = await table
-                .select(`${tableName}.*`, `${DRAFTS}.userID`)
-                .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
-                .where({ draftID });
-
-            if (results.length > 0 && results[0].userID !== decoded.sub) {
+            // encountering SQL error where table is defined more than once on subsequent queries
+            const [draft] = await db(DRAFTS).where({ id: draftID });
+            if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
-
-            // dropping userID in returned objects
-            return results.map(({ userID, ...keepKeys }) => keepKeys);
+            // dropping userID on the return
+            return db(tableName)
+                .where({ draftID })
+                .then((results) =>
+                    /* eslint-disable no-unused-vars */
+                    results.map(({ userID, ...keepKeys }) => keepKeys)
+                )
+                .catch((err) => {
+                    /* eslint-disable no-console */
+                    console.log(err);
+                    throw new Error(
+                        "Something went wrong, check server console for info."
+                    );
+                });
         },
     },
     Mutation: {
         addProject: async (_, { input }, { decoded, throwAuthError }) => {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
-
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
-
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db(tableName).insert(input, ["*"]);
             return result;
         },
         updateProject: async () => {
@@ -57,7 +60,7 @@ module.exports = {
             { projectID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table
+            const [result] = await db(tableName)
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, projectID);
@@ -65,7 +68,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: projectID }).del();
+            return db(tableName).where({ id: projectID }).del();
         },
     },
 };

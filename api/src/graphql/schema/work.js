@@ -2,13 +2,13 @@ const { gql } = require("apollo-server");
 
 const work = gql`
     type Query {
-        getWorkHistory(workID: ID!): WorkHistory
+        getWorkHistory(id: ID!): WorkHistory
         getWorkByDraft(draftID: ID!): [WorkHistory]!
     }
     type Mutation {
         addWorkHistory(input: WorkHistoryInput): WorkHistory
         updateWorkHistory(id: ID!, input: WorkHistoryInput): WorkHistory
-        deleteWorkHistory(workID: ID!): Int!
+        deleteWorkHistory(id: ID!): Int!
     }
 
     type WorkHistory {

@@ -1,25 +1,19 @@
 const db = require("../../database/config/dbConfig");
 
-const education = db("education");
+const tableName = "education";
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        getEducationHistory: async (
-            _,
-            { educationID },
-            { decoded, throwAuthError }
-        ) => {
-            const { userID, ...result } = await education
-                .select("education.*", "drafts.userID")
-                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
-                .where({
-                    id: educationID,
-                });
+        getEducationHistory: async (_, { id }, { decoded, throwAuthError }) => {
+            const result = await db(tableName).where({ id: id }).first();
+            if (!result) throw new Error("No results matched the id.");
 
-            if (userID !== decoded.sub) {
+            const [draft] = await db(DRAFTS).where({ id: result.draftID });
+            if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
+
             return result;
         },
         getEducationByDraft: async (
@@ -27,17 +21,27 @@ module.exports = {
             { draftID },
             { decoded, throwAuthError }
         ) => {
-            const results = await education
-                .select("education.*", "drafts.userID")
-                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
-                .where({ draftID });
-            // if array isn't empty, and the id doesn't match
-            if (results.length > 0 && results[0].userID !== decoded.sub) {
+            // encountering SQL error where table is defined more than once on subsequent queries
+            const draft = await db(DRAFTS).where({ id: draftID });
+            if (draft.length > 0 && draft[0].userID !== decoded.sub) {
                 throwAuthError();
             }
-
-            // dropping userID in returned objects
-            return results.map(({ userID, ...keepKeys }) => keepKeys);
+            // dropping userID on the return
+            return db(tableName)
+                .where({ draftID: draftID })
+                .then((results) =>
+                    /* eslint-disable no-unused-vars */
+                    results.map(({ userID, ...keepKeys }) => {
+                        return keepKeys;
+                    })
+                )
+                .catch((err) => {
+                    /* eslint-disable no-console */
+                    console.log(err);
+                    throw new Error(
+                        "Something went wrong, check server console for info."
+                    );
+                });
         },
     },
     Mutation: {
@@ -49,33 +53,37 @@ module.exports = {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
 
-            if (draft.length === 0) {
-                throw Error("Draft does not exist.");
-            }
-
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
 
-            const [result] = await education.insert(input, ["*"]);
+            const [result] = await db("education").insert(input, ["*"]);
             return result;
         },
-        updateEducationHistory: () => {},
+        updateEducationHistory: async (
+            _,
+            { id, input },
+            { decoded, throwAuthError }
+        ) => {
+            const [result] = await db("education")
+                .where({ id })
+                .update(input, ["*"]);
+            return result;
+        },
         deleteEducation: async (
             _,
             { educationID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await education
-                .select("drafts.userID")
-                .join(DRAFTS, "education.draftID", "=", `${DRAFTS}.id`)
-                .where("education.id", educationID);
+            const [result] = await db("education")
+                .select(`${DRAFTS}.userID`)
+                .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
+                .where(`${tableName}.id`, educationID);
 
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-
-            return education.where({ id: educationID }).del();
+            return db("education").where({ id: educationID }).del();
         },
     },
 };

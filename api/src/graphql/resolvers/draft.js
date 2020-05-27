@@ -1,72 +1,67 @@
 const db = require("../../database/config/dbConfig");
 
-const drafts = db("drafts");
-const roles = db("roles");
-const skills = db("skills");
-const education = db("education");
-const hobbiesTable = db("hobbies");
-const workTable = db("workHistory");
-const projects = db("projects");
-
 module.exports = {
     Draft: {
         role: async ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            const [result] = await roles.where({ draftID: id });
+            const [result] = await db("roles").where({ draftID: id });
             return result;
         },
         project: async ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return projects.where({ draftID: id });
+            return db("projects").where({ draftID: id });
         },
         work: ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return workTable.where({ draftID: id });
+            return db("workHistory").where({ draftID: id });
         },
         education: ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return education.where({ draftID: id });
+            return db("education").where({ draftID: id });
         },
         skill: ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return skills.where({ draftID: id });
+            return db("skills").where({ draftID: id });
         },
         hobbies: ({ id, userID }, _, { decoded, throwAuthError }) => {
             if (userID !== decoded.sub) {
                 throwAuthError();
             }
-            return hobbiesTable.where({ draftID: id });
+            return db("hobbies").where({ draftID: id });
         },
     },
     Query: {
         helloWorld: async (parent, _, { decoded }) => {
+            /* eslint-disable no-console */
             console.log(decoded);
             return "Hello World";
         },
-        getDraft: async (_, { draftID }, { decoded }) => {
-            const [draft] = await drafts.where({ id: draftID });
+        getDraft: async (_, { id }, { decoded }) => {
+            const [draft] = await db("drafts").where({ id: id });
             if (decoded.sub === draft.userID) {
                 return draft;
             }
             throw Error("This draft does not belong to the user.");
         },
-        getDrafts: (_, __, { decoded }) =>
-            drafts.where({ user_id: decoded.sub }),
+        getDrafts: async (_, __, { decoded }) => {
+            const newDrafts = await db("drafts").where({ userID: decoded.sub });
+            return newDrafts;
+        },
     },
     Mutation: {
         addDraft: async (_, { input }, { decoded }) => {
             const { email, name } = input;
-            const [result] = await drafts.insert(
+            const [result] = await db("drafts").insert(
                 { email, name, userID: decoded.sub },
                 ["id"]
             );

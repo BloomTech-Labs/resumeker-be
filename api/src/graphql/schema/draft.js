@@ -2,15 +2,15 @@ const { gql } = require("apollo-server");
 
 const draft = gql`
     type Query {
-        getDraft(draftID: ID!): Draft!
-        getDrafts(userID: ID!): [Draft]!
+        getDraft(id: ID!): Draft!
+        getDrafts: [Draft]!
     }
 
     type Mutation {
         # returns ID of Draft created
         addDraft(input: DraftInput): Int!
-        updateDraft(draftID: ID!, input: DraftInput): Draft!
-        deleteDraft(draftID: ID!): Boolean
+        updateDraft(id: ID!, input: DraftInput): Draft!
+        deleteDraft(id: ID!): Boolean
     }
     type Draft {
         id: ID!
