@@ -28,13 +28,13 @@ it("testClient query", async () => {
     // run query against the server and snapshot the output
     const res = await query({
         query: gql`
-            query getHobby {
-                getHobby(hobbyID: 352) {
+            query getLanguage {
+                getLanguage(languageID: 118) {
                     name
                 }
             }
         `,
-        variables: { hobbyID: 352 },
+        variables: { languageID: 118 },
     });
-    expect(res.data.getHobby).toBe(null);
+    expect(res.data.getLanguage).toBe(null);
 });

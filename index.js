@@ -25,7 +25,6 @@ const server = new ApolloServer({
 
         const decodedToken = jwt.decode(bearerToken, { complete: true });
         const signingKey = await getUtilKey(decodedToken.header);
-
         const decoded = jwt.verify(bearerToken, signingKey, {
             audience: process.env.AUTHO0_AUDIENCE,
             issuer: process.env.AUTH0_DOMAIN,
