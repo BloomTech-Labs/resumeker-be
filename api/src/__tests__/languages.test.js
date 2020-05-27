@@ -1,8 +1,8 @@
 const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 const { createTestClient } = require("apollo-server-testing");
 
-const resolvers = require("../graphql/resolvers/index");
-const typeDefs = require("../graphql/schema/index");
+const resolvers = require("../graphql/resolvers/languages");
+const typeDefs = require("../graphql/schema/languages");
 
 const throwAuthError = () => {
     throw new AuthenticationError(
@@ -30,11 +30,11 @@ it("testClient query", async () => {
         query: gql`
             query getLanguage {
                 getLanguage(languageID: 118) {
-                    name
+                    language
                 }
             }
         `,
         variables: { languageID: 118 },
     });
-    expect(res.data.getLanguage).toBe(null);
+    expect(res.data).toBe(null);
 });

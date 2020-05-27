@@ -37,6 +37,5 @@ it("testClient query", async () => {
         `,
         variables: { id: 352 },
     });
-    console.log("RES", res);
     expect(res.data.getEducationHistory).toBe(null);
 });

@@ -37,6 +37,7 @@ it("testClient query", async () => {
         `,
         variables: { roleID: 118 },
     });
-    console.log("RES", res);
-    expect(res.data.getRole).toBe(null);
+
+    console.log("RES IN ROLE", res);
+    expect(res.data).toBe(null);
 });
