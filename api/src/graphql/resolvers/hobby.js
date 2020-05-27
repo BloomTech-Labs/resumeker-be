@@ -1,20 +1,18 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "hobbies";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getHobby: async (_, { hobbyID }, { decoded, throwAuthError }) => {
-            const [result] = await table.where({ id: hobbyID });
+            const [result] = await db(tableName).where({ id: hobbyID });
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
             if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
-
             return result;
         },
         getHobbiesByDraft: async (
@@ -28,9 +26,10 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
+            return db("education")
                 .where({ draftID })
                 .then((results) =>
+                    /* eslint-disable no-unused-vars */
                     results.map(({ userID, ...keepKeys }) => keepKeys)
                 )
                 .catch((err) => {
@@ -46,19 +45,17 @@ module.exports = {
         addHobby: async (_, { input }, { decoded, throwAuthError }) => {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
-
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
-
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db("education").insert(input, ["*"]);
             return result;
         },
         updateHobby: async () => {
             throw Error("Work in progress!");
         },
         deleteHobby: async (_, { hobbyID }, { decoded, throwAuthError }) => {
-            const [result] = await table
+            const [result] = await db(tableName)
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, hobbyID);
@@ -66,7 +63,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: hobbyID }).del();
+            return db(tableName).where({ id: hobbyID }).del();
         },
     },
 };

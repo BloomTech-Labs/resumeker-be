@@ -1,13 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "languages";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getLanguage: async (_, { languageID }, { decoded, throwAuthError }) => {
-            const [result] = await table.where({ id: languageID });
+            const [result] = await db(tableName).where({ id: languageID });
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });
@@ -28,9 +27,10 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return table
+            return db(tableName)
                 .where({ draftID })
                 .then((results) =>
+                    /* eslint-disable no-unused-vars */
                     results.map(({ userID, ...keepKeys }) => keepKeys)
                 )
                 .catch((err) => {
@@ -46,12 +46,10 @@ module.exports = {
         addLanguage: async (_, { input }, { decoded, throwAuthError }) => {
             const { draftID } = input;
             const draft = await db(DRAFTS).where({ id: draftID });
-
             if (!draft.userID === decoded.sub) {
                 throwAuthError();
             }
-
-            const [result] = await table.insert(input, ["*"]);
+            const [result] = await db(tableName).insert(input, ["*"]);
             return result;
         },
         updateLanguage: async () => {
@@ -62,7 +60,7 @@ module.exports = {
             { languageID },
             { decoded, throwAuthError }
         ) => {
-            const [result] = await table
+            const [result] = await db("drafts")
                 .select(`${DRAFTS}.userID`)
                 .join(DRAFTS, `${tableName}.draftID`, "=", `${DRAFTS}.id`)
                 .where(`${tableName}.id`, languageID);
@@ -70,7 +68,7 @@ module.exports = {
             if (result.userID !== decoded.sub) {
                 throwAuthError();
             }
-            return table.where({ id: languageID }).del();
+            return db(tableName).where({ id: languageID }).del();
         },
     },
 };

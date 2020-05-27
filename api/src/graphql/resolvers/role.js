@@ -1,13 +1,12 @@
 const db = require("../../database/config/dbConfig");
 
 const tableName = "languages";
-const table = db(tableName);
 const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
         getRole: async (parent, { roleID }, { decoded, throwAuthError }) => {
-            const [result] = await table.where({ id: roleID });
+            const [result] = await db(tableName).where({ id: roleID });
             if (!result) throw new Error("No results matched the id.");
 
             const [draft] = await db(DRAFTS).where({ id: result.draftID });

@@ -1,24 +1,10 @@
 require("dotenv").config();
 const { ApolloServer, AuthenticationError } = require("apollo-server");
 const jwt = require("jsonwebtoken");
-const jwksClient = require("jwks-rsa");
-const { promisify } = require("util");
+const { getUtilKey } = require("./api/src/auth/auth");
 
-// GraphQL Schema
 const typeDefs = require("./api/src/graphql/schema/index");
 const resolvers = require("./api/src/graphql/resolvers/index.js");
-
-const client = jwksClient({
-    jwksUri: `${process.env.AUTH0_DOMAIN}.well-known/jwks.json`,
-});
-
-const incomingKey = promisify(client.getSigningKey);
-
-const getUtilKey = async (header) => {
-    const result = await incomingKey(header.kid);
-
-    return result.publicKey;
-};
 
 const throwAuthError = () => {
     throw new AuthenticationError(
@@ -39,7 +25,6 @@ const server = new ApolloServer({
 
         const decodedToken = jwt.decode(bearerToken, { complete: true });
         const signingKey = await getUtilKey(decodedToken.header);
-
         const decoded = jwt.verify(bearerToken, signingKey, {
             audience: process.env.AUTHO0_AUDIENCE,
             issuer: process.env.AUTH0_DOMAIN,
