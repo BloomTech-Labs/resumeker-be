@@ -71,8 +71,6 @@ it("adding new project and getting it", async () => {
         variables: {draftID: 1000}
     })
 
-    console.log("inside of project", res_query.data.getProjectsByDraft)
-
     const toInt = Number(res_mutation.data.addProject.id)
     expect(res_query.data.getProjectsByDraft).toHaveLength(toInt)
 });
