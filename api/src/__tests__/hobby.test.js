@@ -4,6 +4,8 @@ const { createTestClient } = require("apollo-server-testing");
 const resolvers = require("../graphql/resolvers/index");
 const typeDefs = require("../graphql/schema/index");
 
+require("dotenv").config();
+
 const throwAuthError = () => {
     throw new AuthenticationError(
         "You must be authenticated or authorized to perform this operation."
@@ -17,7 +19,7 @@ it("testClient query", async () => {
         typeDefs,
         resolvers,
         context: () => ({
-            decoded: { sub: "random string" },
+            decoded: { sub: process.env.TEST_USER },
             throwAuthError,
         }),
     });
@@ -29,12 +31,13 @@ it("testClient query", async () => {
     const res = await query({
         query: gql`
             query getHobby {
-                getHobby(hobbyID: 352) {
+                getHobby(hobbyID: 1) {
                     name
                 }
             }
         `,
-        variables: { hobbyID: 352 },
+        variables: { hobbyID: 1 },
     });
-    expect(res.data.getHobby).toBe(null);
+    console.log(res.data.getHobby, "response inside of hobby test")
+    expect(res.data.getHobby.name).toBe("Fishing");
 });
