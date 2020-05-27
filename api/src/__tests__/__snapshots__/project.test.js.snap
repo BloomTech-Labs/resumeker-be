@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`adding new project and getting it 1`] = `
+Object {
+  "data": Object {
+    "addProject": Object {
+      "description": "This project can help you to create resume easily",
+      "draftID": "1000",
+      "endDate": "05.31.2020",
+      "projectUrl": "http://www.resumeker.com",
+      "startDate": "02.01.2020",
+      "title": "Resumeker",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

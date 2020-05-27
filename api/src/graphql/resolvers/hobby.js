@@ -26,7 +26,7 @@ module.exports = {
                 throwAuthError();
             }
             // dropping userID on the return
-            return db("education")
+            return db(tableName)
                 .where({ draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
