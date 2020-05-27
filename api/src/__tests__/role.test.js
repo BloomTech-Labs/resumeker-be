@@ -5,6 +5,7 @@ const resolvers = require("../graphql/resolvers/index");
 const typeDefs = require("../graphql/schema/index");
 
 const throwAuthError = () => {
+    console.log("Auth Error Has Been Thrown");
     throw new AuthenticationError(
         "You must be authenticated or authorized to perform this operation."
     );
@@ -28,13 +29,14 @@ it("testClient query", async () => {
     // run query against the server and snapshot the output
     const res = await query({
         query: gql`
-            query getHobby {
-                getHobby(hobbyID: 352) {
-                    name
+            query getRole {
+                getRole(roleID: 118) {
+                    draftID
                 }
             }
         `,
-        variables: { hobbyID: 352 },
+        variables: { roleID: 118 },
     });
-    expect(res.data.getHobby).toBe(null);
+    console.log("RES", res);
+    expect(res.data.getRole).toBe(null);
 });
