@@ -1,8 +1,8 @@
 const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 const { createTestClient } = require("apollo-server-testing");
 
-const resolvers = require("../graphql/resolvers/index");
-const typeDefs = require("../graphql/schema/index");
+const resolvers = require("../graphql/resolvers/work");
+const typeDefs = require("../graphql/schema/work");
 
 require("dotenv").config();
 
@@ -30,13 +30,13 @@ it("testClient query", async () => {
     // run query against the server and snapshot the output
     const res = await query({
         query: gql`
-            query getWorkByDraftTest {
-                getWorkByDraft(draftID: 1000) {
+            query getWorkHistoryTest {
+                getWorkHistory(id: 1) {
                     title
                 }
             }
         `,
     });
-    console.log(res, "response inside of hobby test");
-    expect(res.data.getWorkByDraft).toHaveLength(1);
+
+    expect(res.data.getWorkHistory.title).toBe("Line Cook");
 });
