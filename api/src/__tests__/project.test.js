@@ -1,41 +1,78 @@
 const { ApolloServer, gql, AuthenticationError } = require("apollo-server");
 const { createTestClient } = require("apollo-server-testing");
 
-const resolvers = require("../graphql/resolvers/index");
-const typeDefs = require("../graphql/schema/index");
+const resolvers = require("../graphql/resolvers/project");
+const typeDefs = require("../graphql/schema/project");
+
+require("dotenv").config();
 
 const throwAuthError = () => {
-    throw new AuthenticationError(
-        "You must be authenticated or authorized to perform this operation."
-    );
+  throw new AuthenticationError(
+    "You must be authenticated or authorized to perform this operation."
+  );
 };
 
-it("testClient query", async () => {
-    // create a test server to test against, using our production typeDefs,
-    // resolvers, and dataSources.
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-        context: () => ({
-            decoded: { sub: "random string" },
-            throwAuthError,
-        }),
-    });
+it("adding new project and getting it", async () => {
+  // create a test server to test against, using our production typeDefs,
+  // resolvers, and dataSources.
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: () => ({
+      decoded: { sub: process.env.TEST_USER },
+      throwAuthError,
+    }),
+  });
 
-    // use the test server to create a query function
-    const { query } = createTestClient(server);
+  // use the test server to create a query function
+  const { query, mutate } = createTestClient(server);
 
-    // run query against the server and snapshot the output
-    const res = await query({
-        query: gql`
-            query getProject {
-                getProject(projectID: 118) {
-                    title
-                }
-            }
-        `,
-        variables: { projectID: 118 },
-    });
-    console.log(res, "RES");
-    expect(res.data.getProject).toBe(null);
+  // adding new project
+  const res_mutation = await mutate({
+    mutation: gql`
+      mutation addProject($input: ProjectInput!) {
+        addProject(input: $input) {
+          id
+          draftID
+          title
+          projectUrl
+          description
+          startDate
+          endDate
+        }
+      }
+    `,
+    variables: {
+      input: {
+        draftID: 1000,
+        title: "Resumeker",
+        projectUrl: "http://www.resumeker.com",
+        description: "This project can help you to create resume easily",
+        startDate: "02.01.2020",
+        endDate: "05.31.2020",
+      },
+    },
+  });
+
+  const res_query = await query({
+    query: gql`
+      query getProjectsByDraft($draftID: ID!) {
+        getProjectsByDraft(draftID: $draftID) {
+          id
+          draftID
+          title
+          projectUrl
+          description
+          startDate
+          endDate
+        }
+      }
+    `,
+    variables: { draftID: 1000 },
+  });
+
+    const result = res_query.data.getProjectsByDraft
+    const lastObject = result[result.length-1]
+
+    expect(res_mutation.data.addProject.id).toEqual(lastObject.id)
 });
