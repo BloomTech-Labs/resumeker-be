@@ -26,17 +26,18 @@
     // // use the test server to create a query function
     // const { query } = createTestClient(server);
 
-    // // run query against the server and snapshot the output
-    // const res = await query({
-    //     query: gql`
-    //         query getRole {
-    //             getRole(roleID: 118) {
-    //                 draftID
-    //             }
-    //         }
-    //     `,
-    //     variables: { roleID: 118 },
-    // });
-    // console.log("RES", res);
-    // expect(res.data.getRole).toBe(null);
-// });
+    // run query against the server and snapshot the output
+    const res = await query({
+        query: gql`
+            query getRole {
+                getRole(roleID: 118) {
+                    draftID
+                }
+            }
+        `,
+        variables: { roleID: 118 },
+    });
+
+    console.log("RES IN ROLE", res);
+    expect(res.data).toBe(null);
+});
