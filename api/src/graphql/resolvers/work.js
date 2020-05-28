@@ -5,11 +5,11 @@ const DRAFTS = "drafts";
 
 module.exports = {
     Query: {
-        getWorkHistory: async (_, { workID }, { decoded, throwAuthError }) => {
-            const [result] = await db(tableName).where({ id: workID });
+        getWorkHistory: async (_, { id }, { decoded, throwAuthError }) => {
+            const [result] = await db("workHistory").where({ id: id });
             if (!result) throw new Error("No results matched the id.");
 
-            const [draft] = await db(DRAFTS).where({ id: result.draftID });
+            const [draft] = await db("drafts").where({ id: result.draftID });
             if (draft.userID !== decoded.sub) {
                 throwAuthError();
             }
@@ -18,12 +18,12 @@ module.exports = {
         },
         getWorkByDraft: async (_, { draftID }, { decoded, throwAuthError }) => {
             // encountering SQL error where table is defined more than once on subsequent queries
-            const draft = await db(DRAFTS).where({ id: draftID });
+            const draft = await db("drafts").where({ id: draftID });
             if (draft.length > 0 && draft[0].userID !== decoded.sub) {
                 throwAuthError();
             }
             // dropping userID on the return
-            return db(tableName)
+            return db("workHistory")
                 .where({ draftID })
                 .then((results) =>
                     /* eslint-disable no-unused-vars */
