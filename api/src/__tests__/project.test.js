@@ -71,6 +71,8 @@ it("adding new project and getting it", async () => {
         variables: {draftID: 1000}
     })
 
-    const toInt = Number(res_mutation.data.addProject.id)
-    expect(res_query.data.getProjectsByDraft).toHaveLength(toInt)
+    const result = res_query.data.getProjectsByDraft
+    const lastObject = result[result.length-1]
+
+    expect(res_mutation.data.addProject.id).toEqual(lastObject.id)
 });
