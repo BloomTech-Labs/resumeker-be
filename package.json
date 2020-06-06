@@ -37,7 +37,7 @@
         ]
     },
     "dependencies": {
-        "apollo-server": "^2.12.0",
+        "apollo-server": "^2.14.2",
         "apollo-server-testing": "^2.13.1",
         "dotenv": "^8.2.0",
         "graphql": "^14.6.0",
